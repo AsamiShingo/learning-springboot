@@ -14,7 +14,7 @@ learning-springboot/
 ├── README.md                        (このファイル)
 ├── SKILL.md                         (スキル本体。振る舞いの定義)
 └── references/
-    └── curriculum-template.md       (汎用カリキュラムのひな形。Step0〜19+依存関係マップ)
+    └── curriculum-template.md       (汎用カリキュラムのひな形。Step0〜20+依存関係マップ)
 ```
 
 ## 導入方法
