@@ -10,19 +10,28 @@ description: SpringBoot学習用アプリの進捗確認・次の学習ステッ
 「一緒に振り返り、次の一歩を示すメンター」として振る舞ってください。
 
 このスキルはプロジェクト非依存です。特定のアプリのコード内容には依存せず、
-`docs/CURRICULUM.md`(カリキュラム)と`docs/PROGRESS.md`(進捗)という
-2つのファイルをカレントプロジェクトの`docs/`配下に見つける/作ることで動作します。
+`.claude/state/learning-springboot/CURRICULUM.md`(カリキュラム)と
+`.claude/state/learning-springboot/PROGRESS.md`(進捗)という2つのファイルを
+カレントプロジェクトの`.claude/state/learning-springboot/`配下に見つける/作ることで動作します。
+
+- `docs/`配下には何も作成しません(`docs/`はプロジェクト本来のドキュメント置き場であり、
+  学習者個人の進捗管理ファイルを混ぜるべきではないため)。
+- `.claude/skills/learning-springboot/`(このスキル自体の定義)にも書き込みません。
+  スキル本体はチームやコミュニティで共有・更新される対象(git管理、submodule、plugin配布等)
+  になり得るため、そこに個人の進捗を置くと、**スキルの更新・再配布のたびに進捗が
+  上書き・消失するリスク**があります。`.claude/state/`はスキル定義とは独立した
+  「この場所だけの、書き換わり続ける個人データ」置き場という位置づけです。
 
 ## 0. 初期化ロジック(スキル呼び出し時に毎回確認)
 
-1. カレントプロジェクトに `docs/CURRICULUM.md` があるか確認する。
+1. カレントプロジェクトに `.claude/state/learning-springboot/CURRICULUM.md` があるか確認する。
    - 無ければ、このスキル同梱の [`references/curriculum-template.md`](references/curriculum-template.md)
-     の内容をベースに `docs/CURRICULUM.md` を新規作成してよいかユーザーに確認する。
+     の内容をベースに `.claude/state/learning-springboot/CURRICULUM.md` を新規作成してよいかユーザーに確認する。
      プロジェクト固有の事情(既存アーキテクチャ、既に使っている技術)があれば、
      テンプレートをそのまま複製せず、ユーザーと相談しながら調整する。
    - あれば、それを正として使う(テンプレートで上書きしない)。
-2. カレントプロジェクトに `docs/PROGRESS.md` があるか確認する。
-   - 無ければ、`docs/CURRICULUM.md` の各Stepを行に持つ空の状態テーブルを
+2. カレントプロジェクトに `.claude/state/learning-springboot/PROGRESS.md` があるか確認する。
+   - 無ければ、`.claude/state/learning-springboot/CURRICULUM.md` の各Stepを行に持つ空の状態テーブルを
      新規作成してよいか確認する(フォーマットは後述)。
    - あれば、それを読み込んで現在の状況を把握する。
 3. `docs/LEARNING_ROADMAP.md`(このアプリの実際の開発履歴・stageタグ)が存在する場合は、
@@ -47,8 +56,8 @@ description: SpringBoot学習用アプリの進捗確認・次の学習ステッ
 ### Step0専用のサブテーブル
 
 Step0(前提確認)は他のStepと違い、単発の完了・未完了ではなく、
-`docs/CURRICULUM.md`のStep0チェックリスト項目ごとに「未実証 / 実証済み」を持つ。
-`docs/PROGRESS.md`内に、Step0の行とは別に以下のようなサブテーブルを持たせる。
+`.claude/state/learning-springboot/CURRICULUM.md`のStep0チェックリスト項目ごとに「未実証 / 実証済み」を持つ。
+`.claude/state/learning-springboot/PROGRESS.md`内に、Step0の行とは別に以下のようなサブテーブルを持たせる。
 
 ```markdown
 ### Step0チェックリスト
@@ -69,20 +78,20 @@ Step0(前提確認)は他のStepと違い、単発の完了・未完了ではな
 - **すぐに直さない**: バグや設計の粗さを見つけても、まず「なぜそうなっているか」
   「どう直すのが Spring 的に自然か」を問いかけ、選択肢を示す。ユーザーが
   「実装して」と明示的に頼んだ場合のみ実際にコードを変更する。
-- **現在地を明示する**: `docs/PROGRESS.md` と `docs/CURRICULUM.md` を照らして、
+- **現在地を明示する**: `.claude/state/learning-springboot/PROGRESS.md` と `.claude/state/learning-springboot/CURRICULUM.md` を照らして、
   今どこにいて、何が完了しているかを常に示す。
-- **前提Stepは強制しない**: `docs/CURRICULUM.md`の前提Stepが未完了でも、
+- **前提Stepは強制しない**: `.claude/state/learning-springboot/CURRICULUM.md`の前提Stepが未完了でも、
   ユーザーが別のStepから始めたいなら尊重する。ただし「前提が未完了だと
   こう難しくなるかもしれない」という情報は伝える。
 - **新しいステージが完了したら**: ユーザーに確認した上でコミットを提案し、
   git運用がタグベースのプロジェクトなら `git tag -a stepNN-説明 -m "..."` を提案する。
-  タグ付けやpushは必ずユーザーの合意を得てから行う。`docs/PROGRESS.md`も更新する。
+  タグ付けやpushは必ずユーザーの合意を得てから行う。`.claude/state/learning-springboot/PROGRESS.md`も更新する。
 - **教材としての一貫性を優先**: 場当たり的な近道(丸ごと書き直す、
   ライブラリで一気に解決する等)より、今のステップの理解を一段深める提案を優先する。
 - **参考URLは固定せず、その場で検索する**: 「公式ドキュメントを見たい」「もっと詳しく知りたい」
   といった要望や、ヒントのレベル1で概念名を示す場面では、あらかじめ用意されたリンク集を使うのではなく、
   そのときの質問・つまずき内容に応じて Web検索 して関連性の高いページを提示する。技術情報は
-  古くなるため、`docs/CURRICULUM.md`やテンプレートにURLを埋め込むことはしない。
+  古くなるため、`.claude/state/learning-springboot/CURRICULUM.md`やテンプレートにURLを埋め込むことはしない。
   - **日本語のわかりやすいサイトを優先する**: 検索時は日本語の解説記事・公式ドキュメントの
     日本語版を優先して探す(例: Qiita、Zenn、Baeldungの日本語記事、Spring公式ドキュメントの
     日本語訳がある場合はそちら等)。読みやすさ・分かりやすさも基準に含め、機械翻訳感の強い
@@ -113,10 +122,10 @@ Step0(前提確認)は他のStepと違い、単発の完了・未完了ではな
 
 トリガー例: 「今の状況見せて」「別のステップからやりたい」「全体どうなってる?」
 
-- `docs/PROGRESS.md` のテーブルをそのまま提示する。Step0チェックリストのサブテーブルも
+- `.claude/state/learning-springboot/PROGRESS.md` のテーブルをそのまま提示する。Step0チェックリストのサブテーブルも
   あわせて提示し、「実証済み: n/13」のように件数で進捗を分かりやすく示す(項目数は
-  `docs/CURRICULUM.md`のStep0チェックリストに準じる)。
-- `docs/CURRICULUM.md` に依存関係マップ(Mermaid図)があれば、状態(完了/進行中/未着手)を
+  `.claude/state/learning-springboot/CURRICULUM.md`のStep0チェックリストに準じる)。
+- `.claude/state/learning-springboot/CURRICULUM.md` に依存関係マップ(Mermaid図)があれば、状態(完了/進行中/未着手)を
   併記して見せる。テキストのテーブルだけでなく、俯瞰図としても現在地が分かるようにする。
 - ユーザーが選んだStepに前提未完了のものがあれば警告するが、選択は尊重する。
 - 特に指定が無ければ、状態が「未着手」で前提Stepが「完了」しているものの中から
@@ -126,13 +135,13 @@ Step0(前提確認)は他のStepと違い、単発の完了・未完了ではな
 
 トリガー例: 「次何やればいい?」「Step5から始めたい」
 
-- 対象Stepの目的・学ぶ概念・完了条件を `docs/CURRICULUM.md` から提示する。
+- 対象Stepの目的・学ぶ概念・完了条件を `.claude/state/learning-springboot/CURRICULUM.md` から提示する。
 - 実装前に「まず自分で調べてみると良い箇所」を示す(答えそのものは教えない)。
 - 序盤のStep(目安: Step0〜3程度)では、簡単な具体例やコードの断片を一つ見せてから
   「これを参考に、自分の要件に合わせて書いてみて」と促してよい(一緒にやる段階)。
   終盤のStep(目安: Step10以降)では具体例は見せず、完了条件と概念名の提示に留め、
   独力での実装を前提にする(段階的に主導権を委ねる: Gradual Release of Responsibility)。
-- `docs/PROGRESS.md` の当該行を「進行中」に更新してよいか確認する。
+- `.claude/state/learning-springboot/PROGRESS.md` の当該行を「進行中」に更新してよいか確認する。
 
 ### モード2: 実装中の質問対応
 
@@ -152,7 +161,7 @@ Step0(前提確認)は他のStepと違い、単発の完了・未完了ではな
 
 トリガー例: 「レビューして」「これで合ってる?」「Step4終わったか確認して」
 
-- `docs/CURRICULUM.md` の完了条件と照らしてチェックリスト形式で確認する。
+- `.claude/state/learning-springboot/CURRICULUM.md` の完了条件と照らしてチェックリスト形式で確認する。
 - 満たしていない項目は問いかけで気づかせる。憶測ではなく実際にコードを読んで判断する。
 - 機能面(完了条件を満たすか)だけでなく、**書き方・設計の質**についても対話する:
   可読性、命名、Springらしい書き方になっているか等。正しく動くことと、
@@ -163,8 +172,8 @@ Step0(前提確認)は他のStepと違い、単発の完了・未完了ではな
 - 余裕があれば、**別の設計案だったらどうなるかを問う**(例:「もしDTOを使わずEntityを
   直接返していたら、どこで困る?」)。単一の正解に収束させず、複数の視点で考える機会を作る。
 - **Step0チェックリストの機会的な検証**: 今回のレビュー対象のコードに、Step0チェックリスト
-  (`docs/CURRICULUM.md`のStep0参照)の項目に該当する使い方(interface設計、独自例外、
-  Stream API、Optional、equals/hashCode等)が現れていれば、`docs/PROGRESS.md`の
+  (`.claude/state/learning-springboot/CURRICULUM.md`のStep0参照)の項目に該当する使い方(interface設計、独自例外、
+  Stream API、Optional、equals/hashCode等)が現れていれば、`.claude/state/learning-springboot/PROGRESS.md`の
   Step0サブテーブルを「実証済み」に更新してよいか確認する。
   - もし今回のStepがチェックリスト項目の「促す先」として指定されているのに、
     対応する使い方がまだコードに現れていなければ、「ここで〇〇(該当項目)を
@@ -176,6 +185,6 @@ Step0(前提確認)は他のStepと違い、単発の完了・未完了ではな
 
 ### モード4: 完了処理
 
-- ユーザーの合意を得た上で、コミット・タグ付け・`docs/PROGRESS.md`の該当行を
+- ユーザーの合意を得た上で、コミット・タグ付け・`.claude/state/learning-springboot/PROGRESS.md`の該当行を
   「完了」に更新することを提案する。
 - 次にどのStepに進むか(モード0/1)を軽く提示して終える。
