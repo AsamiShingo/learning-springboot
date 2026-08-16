@@ -1,3 +1,5 @@
+<!-- template-version: 2026-08-16 -->
+
 # SpringBoot Web開発 学習カリキュラム(汎用テンプレート)
 
 対象: Javaの基礎(OOP・コレクション・例外処理・ラムダ/Stream)を一通り学んだ人が、
@@ -5,6 +7,8 @@ SpringBootでWebアプリケーション開発を段階的に学ぶためのカ�
 
 このファイルはプロジェクト非依存のテンプレートです。学習を始めるプロジェクトに
 `.claude/state/learning-springboot/CURRICULUM.md` が無い場合、このファイルをコピーして使います。
+その際、冒頭の`<!-- template-version: ... -->`コメントもそのままコピーする
+(更新確認のための版数マーカー。詳細は`SKILL.md`の初期化ロジック参照)。
 
 各Stepは **目的 / 概念 / 前提Step / 完了条件(Definition of Done)** を持ちます。
 前提Stepは「この順で進めることを推奨する」という情報であり、強制ではありません。
