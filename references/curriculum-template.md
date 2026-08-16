@@ -21,9 +21,9 @@ Step0(前提確認)/ Step1(環境構築)/ Step2(最小アプリ)/ Step3(デプ�
 Step4(画面遷移・フォーム)/ Step5(画面共通化)/ Step6(バリデーションエラー)/
 Step7(DB接続)/ Step8(レイヤード)/ Step9(DTO分離)/ Step10(テスト)/
 Step11(セッション認証)/ Step12(REST API)/ Step13(Security入門)/
-Step14(認可仕上げ)/ Step15(運用仕上げ・任意)/ Step16(JS基礎)/
-Step17(CSSレイアウト)/ Step18(クライアントバリデーション)/ Step19(jQuery)/
-Step20(Ajax+CSRF)/ 発展メニュー
+Step14(認可仕上げ)/ Step15(ロギング・Interceptor・Filter)/
+Step16(運用仕上げ・任意)/ Step17(JS基礎)/ Step18(CSSレイアウト)/
+Step19(クライアントバリデーション)/ Step20(jQuery)/ Step21(Ajax+CSRF)/ 発展メニュー
 
 ## 全体像(依存関係マップ)
 
@@ -48,22 +48,24 @@ graph LR
   S11 --> S13[Step13 Security入門]
   S12 --> S13
   S13 --> S14[Step14 認可仕上げ]
-  S7 --> S15[Step15 運用仕上げ]
-  S3 --> S15
-  S15 --> S16[Step16 JS基礎]
-  S16 --> S17[Step17 CSSレイアウト]
-  S16 --> S18[Step18 クライアントバリデーション]
-  S16 --> S19[Step19 jQuery]
-  S12 --> S20[Step20 Ajax+CSRF]
-  S13 --> S20
-  S19 --> S20
+  S14 --> S15[Step15 ロギング/Interceptor/Filter]
+  S7 --> S16[Step16 運用仕上げ]
+  S3 --> S16
+  S15 --> S16
+  S16 --> S17[Step17 JS基礎]
+  S17 --> S18[Step18 CSSレイアウト]
+  S17 --> S19[Step19 クライアントバリデーション]
+  S17 --> S20[Step20 jQuery]
+  S12 --> S21[Step21 Ajax+CSRF]
+  S13 --> S21
+  S20 --> S21
 
   subgraph 任意発展["任意/発展"]
-    S15
+    S16
   end
 
   classDef optional fill:#fff3cd,stroke:#d39e00,stroke-width:2px,stroke-dasharray: 5 5,color:#000;
-  class S15 optional;
+  class S16 optional;
 ```
 
 (黄色の破線枠のノードは「任意/発展」Stepを示す。必須Stepの完了はこれらに依存しない。)
@@ -221,48 +223,66 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 - 前提Step: Step13
 - 完了条件: ログイン後のユーザー特定が`SecurityContext`経由になっている。ロールごとのアクセス制御にテストがある。
 
-## Step15: 運用を意識した仕上げ(任意/発展)
+## Step15: ロギング・Interceptor・Filter
+- 目的: Step13〜14で構築したSpring Securityの仕組み(`SecurityFilterChain`)が、
+  実はServletコンテナ標準のFilterチェーンの上に成り立っていることを理解する。
+  Filterより一段Spring MVC寄りの`HandlerInterceptor`との使い分け、実務で欠かせない
+  ロギング設計を身につける。
+- 概念: Servlet Filter(`jakarta.servlet.Filter`、なぜ複数の`SecurityFilterChain`を
+  `@Order`で並べられるか)、`HandlerInterceptor`(リクエスト処理の前後、どのハンドラ
+  メソッドが呼ばれるかにアクセスできる点がFilterとの違い)、SLF4Jによるログレベルの
+  使い分け(DEBUG/INFO/WARN/ERROR)。
+- 前提Step: Step14
+- 完了条件:
+  - 独自の`HandlerInterceptor`(または`Filter`)を1つ実装し、リクエストの処理時間や
+    呼び出されたURLをログに出力できる。
+  - FilterとInterceptorの違い(扱えるレイヤー、ハンドラ情報へのアクセス可否)を
+    自分の言葉で説明できる。
+  - ログレベルを使い分けて出力し、本番相当ではINFO以上のみ出すような設定ができる。
+
+## Step16: 運用を意識した仕上げ(任意/発展)
 - 目的: 開発時の手軽さ(H2)から一歩進めて、より実務に近い運用面を扱う。
 - 概念: `application-{profile}.properties`によるプロファイル分け、PostgreSQLへの切り替え、
-  ロギング設計、Spring Boot Actuator。
-- 前提Step: Step7, Step3
-- 完了条件: 環境ごとに設定を切り替えて起動できる。
+  Spring Boot Actuator。(ログレベルの使い分け自体はStep15で扱い済み。ここでは
+  プロファイルごとにログ設定を切り替える、という応用に絞る)
+- 前提Step: Step7, Step3, Step15
+- 完了条件: 環境ごとに設定(DB接続先・ログレベルを含む)を切り替えて起動できる。
 
-## フロントエンド編(Step16〜20、バックエンド完了後)
+## フロントエンド編(Step17〜21、バックエンド完了後)
 
-Step0〜15(バックエンド)の間は、Step5の画面共通化を除いて最低限のThymeleaf
+Step0〜16(バックエンド)の間は、Step5の画面共通化を除いて最低限のThymeleaf
 (CSS装飾無し、素のHTML相当)で進め、フロントエンドはバックエンドが一通り完了してから
 本格的に着手する。理由は、Ajax通信やCSRFトークン連携がバックエンドのREST API(Step12)・
 Security(Step13/14)の理解を前提とするため。
 
-## Step16: JavaScript基礎(DOM操作・イベント・Promise)
+## Step17: JavaScript基礎(DOM操作・イベント・Promise)
 - 目的: jQueryやAjaxに入る前に、素のJavaScriptでDOM操作・イベントハンドリング・非同期処理の基本を理解する。
 - 概念: `document.querySelector`、イベントリスナー、`Promise`、`async`/`await`。
-- 前提Step: Step15
+- 前提Step: Step16
 - 完了条件: 素のJavaScriptだけで、ボタンクリックに応じて画面の一部を書き換えられる。
 
-## Step17: CSSレイアウト
+## Step18: CSSレイアウト
 - 目的: 装飾ではなくレイアウト崩れを直せるレベルのCSSを身につける(画面構造の共通化はStep5で対応済み)。
 - 概念: Flexbox/Grid、メディアクエリ(レスポンシブ)。
-- 前提Step: Step16
+- 前提Step: Step17
 - 完了条件: 主要画面がFlexbox/Gridで崩れずに表示される。
 
-## Step18: クライアントサイドバリデーション
+## Step19: クライアントサイドバリデーション
 - 目的: Step6のサーバーサイドバリデーションと対比しながら、即時フィードバック用のクライアント側チェックを実装する。
 - 概念: HTML5バリデーション属性(`required`等)、JavaScriptによる入力チェック、サーバー側検証との役割分担。
-- 前提Step: Step16
+- 前提Step: Step17
 - 完了条件: 明らかな入力ミス(未入力・形式違反)は送信前にクライアント側で気づける。最終チェックはサーバー側(Step6)に残っている。
 
-## Step19: jQuery入門
+## Step20: jQuery入門
 - 目的: 素のJavaScriptで書いていたDOM操作・イベント処理をjQueryで書き直し、何が簡潔になるかを比較する。
 - 概念: セレクタ、`.on()`によるイベントバインド、要素の生成・追加・削除。
-- 前提Step: Step16
-- 完了条件: Step16で書いたDOM操作の一部をjQueryで書き換え、コード量・書き方の違いを説明できる。
+- 前提Step: Step17
+- 完了条件: Step17で書いたDOM操作の一部をjQueryで書き換え、コード量・書き方の違いを説明できる。
 
-## Step20: Ajax通信とCSRF連携
+## Step21: Ajax通信とCSRF連携
 - 目的: 画面遷移を伴わずにサーバーとJSONをやり取りする。Spring SecurityのCSRF保護下でPOSTリクエストを送る。
 - 概念: `$.ajax`/`fetch`、JSONのシリアライズ/デシリアライズ、CSRFトークンをヘッダー/パラメータに埋め込む方法、ブラウザ開発者ツール(Networkタブ)でのデバッグ。
-- 前提Step: Step12(REST API)、Step13(Security/CSRF)、Step19
+- 前提Step: Step12(REST API)、Step13(Security/CSRF)、Step20
 - 完了条件: 画面遷移無しでStep12のREST APIにPOSTでき、CSRF保護が有効なままリクエストが成功する。ブラウザの開発者ツールでリクエスト/レスポンスを確認できる。
 
 ## 発展メニュー(任意、順不同)
