@@ -19,11 +19,12 @@ SpringBootでWebアプリケーション開発を段階的に学ぶためのカ�
 
 Step0(前提確認)/ Step1(環境構築)/ Step2(最小アプリ)/ Step3(デプロイ体験)/
 Step4(画面遷移・フォーム)/ Step5(画面共通化)/ Step6(バリデーションエラー)/
-Step7(DB接続)/ Step8(レイヤード)/ Step9(DTO分離)/ Step10(テスト)/
-Step11(セッション認証)/ Step12(REST API)/ Step13(Security入門)/
-Step14(認可仕上げ)/ Step15(ロギング・Interceptor・Filter)/
-Step16(運用仕上げ・任意)/ Step17(JS基礎)/ Step18(CSSレイアウト)/
-Step19(クライアントバリデーション)/ Step20(jQuery)/ Step21(Ajax+CSRF)/ 発展メニュー
+Step7(DB接続)/ Step8(グローバルエラーページ)/ Step9(レイヤード)/
+Step10(DTO分離)/ Step11(検索・ページング・ソート)/ Step12(テスト)/
+Step13(セッション認証)/ Step14(REST API)/ Step15(Security入門)/
+Step16(認可仕上げ)/ Step17(ロギング・Interceptor・Filter)/
+Step18(運用仕上げ・任意)/ Step19(JS基礎)/ Step20(CSSレイアウト)/
+Step21(クライアントバリデーション)/ Step22(jQuery)/ Step23(Ajax+CSRF)/ 発展メニュー
 
 ## 全体像(依存関係マップ)
 
@@ -39,33 +40,35 @@ graph LR
   S4 --> S5[Step5 画面共通化]
   S4 --> S6[Step6 バリデーションエラー]
   S2 --> S7[Step7 DB接続]
-  S7 --> S8[Step8 レイヤード]
-  S8 --> S9[Step9 DTO分離]
-  S9 --> S10[Step10 テスト]
-  S8 --> S11[Step11 セッション認証]
-  S9 --> S12[Step12 REST API]
-  S11 --> S12
-  S11 --> S13[Step13 Security入門]
-  S12 --> S13
-  S13 --> S14[Step14 認可仕上げ]
-  S14 --> S15[Step15 ロギング/Interceptor/Filter]
-  S7 --> S16[Step16 運用仕上げ]
-  S3 --> S16
-  S15 --> S16
-  S16 --> S17[Step17 JS基礎]
-  S17 --> S18[Step18 CSSレイアウト]
-  S17 --> S19[Step19 クライアントバリデーション]
-  S17 --> S20[Step20 jQuery]
-  S12 --> S21[Step21 Ajax+CSRF]
-  S13 --> S21
-  S20 --> S21
+  S7 --> S8[Step8 グローバルエラーページ]
+  S7 --> S9[Step9 レイヤード]
+  S9 --> S10[Step10 DTO分離]
+  S10 --> S11[Step11 検索/ページング]
+  S11 --> S12[Step12 テスト]
+  S9 --> S13[Step13 セッション認証]
+  S10 --> S14[Step14 REST API]
+  S13 --> S14
+  S13 --> S15[Step15 Security入門]
+  S14 --> S15
+  S15 --> S16[Step16 認可仕上げ]
+  S16 --> S17[Step17 ロギング/Interceptor/Filter]
+  S7 --> S18[Step18 運用仕上げ]
+  S3 --> S18
+  S17 --> S18
+  S18 --> S19[Step19 JS基礎]
+  S19 --> S20[Step20 CSSレイアウト]
+  S19 --> S21[Step21 クライアントバリデーション]
+  S19 --> S22[Step22 jQuery]
+  S14 --> S23[Step23 Ajax+CSRF]
+  S15 --> S23
+  S22 --> S23
 
   subgraph 任意発展["任意/発展"]
-    S16
+    S18
   end
 
   classDef optional fill:#fff3cd,stroke:#d39e00,stroke-width:2px,stroke-dasharray: 5 5,color:#000;
-  class S16 optional;
+  class S18 optional;
 ```
 
 (黄色の破線枠のノードは「任意/発展」Stepを示す。必須Stepの完了はこれらに依存しない。)
@@ -85,17 +88,17 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 |---|---|---|---|
 | 1 | 基本構文(if/for/while等) | 分岐・繰り返しを使った処理がどこかにある(Controller/Serviceの条件分岐等) | Step2(最小アプリ) |
 | 2 | メソッド設計(引数・戻り値・オーバーロード) | 引数・戻り値を適切に設計したメソッドがある。オーバーロードの必要性を説明できる | Step2〜Step4 |
-| 3 | クラス設計・コンストラクタ設計 | Entity/DTOが、責務の合った単位で設計され、不要なsetterを持たない | Step9(DTO設計) |
-| 4 | record(不変データクラス) | DTOやちょっとした値オブジェクトを`record`で表現している、または「なぜここは`record`にしなかったか」を説明できる | Step9(DTO設計) |
-| 5 | interfaceによる抽象化 | `JpaRepository`の継承に加え、Serviceそのものをinterface+実装クラスに分けている、または差し替え可能な設計がある | Step8(レイヤードアーキテクチャ) |
-| 6 | enum(状態・種別の型安全な表現) | ロールや種別のような固定値を、生の文字列比較ではなく`enum`で表現している | Step8(レイヤードアーキテクチャ)、既存コードの`Role`文字列比較の見直し |
-| 7 | 例外処理の使い分け(try-catch-finally、try-with-resources/AutoCloseable、独自例外) | (a)try-catch-finallyの基本構文を説明・使用できる。(b)独自例外クラス(例: `〇〇NotFoundException`)を定義し、適切な層でスローしている。(c)ファイルI/O等リソースを扱うコードがあれば、try-with-resourcesで自動クローズしている | Step12(REST API/例外処理)。(c)は発展メニューの「ファイルアップロード」実装時が自然な実証機会。それまでは、Spring/JPAがリソース管理を肩代わりしているため実証条件を満たすコードが無くて当然であり、会話で仕組みを説明できるかの確認に留めてよい |
+| 3 | クラス設計・コンストラクタ設計 | Entity/DTOが、責務の合った単位で設計され、不要なsetterを持たない | Step10(DTO設計) |
+| 4 | record(不変データクラス) | DTOやちょっとした値オブジェクトを`record`で表現している、または「なぜここは`record`にしなかったか」を説明できる | Step10(DTO設計) |
+| 5 | interfaceによる抽象化 | `JpaRepository`の継承に加え、Serviceそのものをinterface+実装クラスに分けている、または差し替え可能な設計がある | Step9(レイヤードアーキテクチャ) |
+| 6 | enum(状態・種別の型安全な表現) | ロールや種別のような固定値を、生の文字列比較ではなく`enum`で表現している | Step9(レイヤードアーキテクチャ)、既存コードの`Role`文字列比較の見直し |
+| 7 | 例外処理の使い分け(try-catch-finally、try-with-resources/AutoCloseable、独自例外) | (a)try-catch-finallyの基本構文を説明・使用できる。(b)独自例外クラス(例: `〇〇NotFoundException`)を定義し、適切な層でスローしている。(c)ファイルI/O等リソースを扱うコードがあれば、try-with-resourcesで自動クローズしている | Step14(REST API/例外処理)。(c)は発展メニューの「ファイルアップロード」実装時が自然な実証機会。それまでは、Spring/JPAがリソース管理を肩代わりしているため実証条件を満たすコードが無くて当然であり、会話で仕組みを説明できるかの確認に留めてよい |
 | 8 | Collection操作 | `List`/`Map`/`Set`に対する重複除去・ソート・集計等の操作がある | Step2〜Step4(最小アプリ/フォーム) |
-| 9 | ジェネリクス | `JpaRepository<Game, Long>`のような型パラメータ付きの宣言を読み書きできる | Step8(レイヤードアーキテクチャ) |
-| 10 | Stream API | `.stream().filter().map()`等を使ったコレクション処理・変換がある | Step9(Entity→DTO変換) |
-| 11 | Optional | `Repository`の検索結果を`Optional`のまま扱い、`orElseThrow`等で例外に変換している | Step8(Service層) |
+| 9 | ジェネリクス | `JpaRepository<Game, Long>`のような型パラメータ付きの宣言を読み書きできる | Step9(レイヤードアーキテクチャ) |
+| 10 | Stream API | `.stream().filter().map()`等を使ったコレクション処理・変換がある | Step10(Entity→DTO変換) |
+| 11 | Optional | `Repository`の検索結果を`Optional`のまま扱い、`orElseThrow`等で例外に変換している | Step9(Service層) |
 | 12 | equals/hashCodeの契約 | Entity(特に複合主キー相当のクラス)やDTOで`equals`/`hashCode`を意図して定義・確認している(recordなら自動生成される点との対比も含む) | Step7(DB接続/Entity設計) |
-| 13 | ラムダ式/関数型インターフェース | `Comparator`やStream内のラムダ、テストの`when(...).thenReturn(...)`のような関数型の記法を使っている | Step9〜Step10 |
+| 13 | ラムダ式/関数型インターフェース | `Comparator`やStream内のラムダ、テストの`when(...).thenReturn(...)`のような関数型の記法を使っている | Step10〜Step12 |
 
 - 各項目の状態は「未実証 / 実証済み」の2値。`.claude/state/learning-springboot/PROGRESS.md`に
   Step0専用のサブテーブルとして持つ。
@@ -173,22 +176,55 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 - 完了条件: DBに保存したデータが一覧画面に表示される。H2かPostgreSQLのいずれかを選んで接続できている。
 - 補足: 同じEntity/Repositoryコードのまま設定変更だけでH2⇄PostgreSQLを切り替えられることを確認すると、JPAの抽象化の意味が実感できる。
 
-## Step8: レイヤードアーキテクチャへのリファクタリング
-- 目的: Controllerに書いた処理をcontroller/service/repository/entityに分割する。
-- 概念: 関心の分離、コンストラクタインジェクション、`JpaRepository`。
+## Step8: グローバルエラーページ(404/500)
+- 目的: 予期しない例外が起きたとき、Spring Bootのデフォルト画面(Whitelabel Error Page、
+  スタックトレースが透けて見える)をそのまま学習者やユーザーに見せず、分かりやすい
+  エラー画面を返せるようにする。
+- 概念: Spring Bootのデフォルトエラー処理の仕組み、`src/main/resources/templates/error/`
+  配下に`404.html`/`500.html`等を置くだけで自動的に使われる規約、独自の`ErrorController`
+  による細かい制御(任意)。
 - 前提Step: Step7
-- 完了条件: ControllerがRepositoryに直接依存せずServiceを経由している。DBアクセスはRepositoryに閉じている。
+- 完了条件: 存在しないURLにアクセスすると404用のカスタム画面が、意図的にコード内で
+  例外を発生させると500用のカスタム画面が表示される(デフォルトのWhitelabel Error Page
+  のままではない)。
 
-## Step9: DTO設計とAPI/画面の分離
+## Step9: レイヤードアーキテクチャへのリファクタリング
+- 目的: Controllerに書いた処理をcontroller/service/repository/entityに分割する。
+  あわせて、複数のRepository操作をひとまとまりの処理として扱うトランザクション境界を理解する。
+- 概念: 関心の分離、コンストラクタインジェクション、`JpaRepository`、`@Transactional`
+  (1つのServiceメソッド内で複数のRepository操作をまとめ、途中で例外が起きた場合に
+  それまでの変更もロールバックされる仕組み)。
+- 前提Step: Step7
+- 完了条件:
+  - ControllerがRepositoryに直接依存せずServiceを経由している。DBアクセスはRepositoryに閉じている。
+  - 複数のRepository操作をまとめて行うServiceメソッドに`@Transactional`を付け、
+    意図的に途中で例外を発生させて、それ以前の変更も含めてロールバックされることを確認できる。
+
+## Step10: DTO設計とAPI/画面の分離
 - 目的: Entityの直接返却をやめ、リクエスト/レスポンス用のDTOに分離する。
-- 概念: リクエストDTO/レスポンスDTO、バリデーションの層分担(構造的検証はDTO、業務的検証はService)。
-- 前提Step: Step8
-- 完了条件: Controllerの引数・戻り値にEntityが直接現れない。
+  あわせて、Entity→DTO変換時に起きがちなN+1問題に気づき、対策できるようになる。
+- 概念: リクエストDTO/レスポンスDTO、バリデーションの層分担(構造的検証はDTO、業務的検証はService)、
+  N+1問題(一覧のEntityをDTOに変換する際、`@ManyToOne`等の関連Entityへの遅延ロードが
+  一覧の件数分クエリを発行してしまう現象)、`@EntityGraph`やfetch joinによる対策。
+- 前提Step: Step9
+- 完了条件:
+  - Controllerの引数・戻り値にEntityが直接現れない。
+  - 関連Entityを持つ一覧表示について、実行されるSQLログを確認し、N+1が発生していないか
+    (発生していた場合はどう対策したか)を説明できる。
 
-## Step10: テストの導入
+## Step11: 検索・ページング・ソート
+- 目的: 「全件取得」の前提から一歩進め、実務で避けて通れない検索・ページング・並び替えに対応する。
+- 概念: `Pageable`/`Page<T>`、Spring Data JPAのページング機能、検索条件をRepositoryの
+  メソッド名や`Specification`で組み立てる方法。
+- 前提Step: Step10
+- 完了条件: 一覧画面がページ番号によって表示件数を絞り込め、何らかの検索条件
+  (タイトルの部分一致等)で絞り込み表示ができる。APIやDTOも`Page<GameResponse>`の
+  ようにページ情報(総件数・総ページ数等)を含めて返せる。
+
+## Step12: テストの導入
 - 目的: レイヤーごとの責務に応じたテストを書く。
 - 概念: モック/スタブ、`@WebMvcTest`、`@DataJpaTest`。
-- 前提Step: Step9
+- 前提Step: Step11
 - 完了条件:
   - 分岐・条件判定を含む(if/例外送出/Optionalの分岐等がある)Serviceのpublicメソッドには、
     そのメソッドが持つ分岐パターン数と同数以上のテストケースがある(例: 正常系1件+
@@ -196,35 +232,35 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   - 全てのControllerクラスについて、それぞれ最低1つの`@WebMvcTest`クラスがあり、
     各Controllerにつき正常系1件以上・異常系(不正パラメータや存在しないID等)1件以上を含む。
 
-## Step11: セッションによる認証の基礎(手作り)
+## Step13: セッションによる認証の基礎(手作り)
 - 目的: `HttpSession`を使って自前のログイン機能を実装し、認証の基本概念を体で理解する。
 - 概念: セッションスコープ、Cookie、平文パスワード保存の危険性。
-- 前提Step: Step8(レイヤーが確立していること)
+- 前提Step: Step9(レイヤーが確立していること)
 - 完了条件: ログイン/ログアウトができ、未ログイン時は保護されたページにアクセスできない。
 
-## Step12: REST APIと例外処理の設計
+## Step14: REST APIと例外処理の設計
 - 目的: `@RestController`でJSON APIを作り、業務エラーを適切なHTTPステータスにマッピングする。
 - 概念: `@RestController`、`@ExceptionHandler`/`@ControllerAdvice`。
-- 前提Step: Step9, Step11
+- 前提Step: Step10, Step13
 - 完了条件: JSON APIがDTOを返し、異常系(存在しないID指定など)で適切なHTTPステータスが返る。
 - 補足: セッション認証済みのHTML画面と、別途認証が必要なJSON APIという「2種類の入口」が
   併存する状態を作ることが、次のSecurity導入の動機付けになる。
 
-## Step13: Spring Security入門
-- 目的: Step11で体感した手作り認証の弱点(平文パスワード等)をSpring Securityで解決する。
+## Step15: Spring Security入門
+- 目的: Step13で体感した手作り認証の弱点(平文パスワード等)をSpring Securityで解決する。
 - 概念: `SecurityFilterChain`、`UserDetailsService`、BCrypt、CSRF。
-- 前提Step: Step11, Step12
+- 前提Step: Step13, Step14
 - 完了条件: パスワードがハッシュ化されて保存され、Spring Securityのフィルタ経由でログインが機能する。
 
-## Step14: 認可の作り込みとSecurity統合の仕上げ
+## Step16: 認可の作り込みとSecurity統合の仕上げ
 - 目的: 画面用/API用など用途別に`SecurityFilterChain`を分割し、ログイン後のユーザー特定を
   `SecurityContextHolder`経由に統一する。
 - 概念: `@PreAuthorize`、ロールベース認可、`@WithMockUser`によるSecurityのテスト。
-- 前提Step: Step13
+- 前提Step: Step15
 - 完了条件: ログイン後のユーザー特定が`SecurityContext`経由になっている。ロールごとのアクセス制御にテストがある。
 
-## Step15: ロギング・Interceptor・Filter
-- 目的: Step13〜14で構築したSpring Securityの仕組み(`SecurityFilterChain`)が、
+## Step17: ロギング・Interceptor・Filter
+- 目的: Step15〜16で構築したSpring Securityの仕組み(`SecurityFilterChain`)が、
   実はServletコンテナ標準のFilterチェーンの上に成り立っていることを理解する。
   Filterより一段Spring MVC寄りの`HandlerInterceptor`との使い分け、実務で欠かせない
   ロギング設計を身につける。
@@ -232,7 +268,7 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   `@Order`で並べられるか)、`HandlerInterceptor`(リクエスト処理の前後、どのハンドラ
   メソッドが呼ばれるかにアクセスできる点がFilterとの違い)、SLF4Jによるログレベルの
   使い分け(DEBUG/INFO/WARN/ERROR)。
-- 前提Step: Step14
+- 前提Step: Step16
 - 完了条件:
   - 独自の`HandlerInterceptor`(または`Filter`)を1つ実装し、リクエストの処理時間や
     呼び出されたURLをログに出力できる。
@@ -240,50 +276,54 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
     自分の言葉で説明できる。
   - ログレベルを使い分けて出力し、本番相当ではINFO以上のみ出すような設定ができる。
 
-## Step16: 運用を意識した仕上げ(任意/発展)
-- 目的: 開発時の手軽さ(H2)から一歩進めて、より実務に近い運用面を扱う。
+## Step18: 運用を意識した仕上げ(任意/発展)
+- 目的: 開発時の手軽さ(H2、`ddl-auto=update`)から一歩進めて、より実務に近い運用面を扱う。
 - 概念: `application-{profile}.properties`によるプロファイル分け、PostgreSQLへの切り替え、
-  Spring Boot Actuator。(ログレベルの使い分け自体はStep15で扱い済み。ここでは
-  プロファイルごとにログ設定を切り替える、という応用に絞る)
-- 前提Step: Step7, Step3, Step15
-- 完了条件: 環境ごとに設定(DB接続先・ログレベルを含む)を切り替えて起動できる。
+  Spring Boot Actuator、DBスキーマのマイグレーション管理(Flyway/Liquibase)。
+  (ログレベルの使い分け自体はStep17で扱い済み。ここではプロファイルごとにログ設定を
+  切り替える、という応用に絞る)
+- 前提Step: Step7, Step3, Step17
+- 完了条件:
+  - 環境ごとに設定(DB接続先・ログレベルを含む)を切り替えて起動できる。
+  - `ddl-auto=update`に頼らないスキーマ管理の仕組み(Flyway等)を最低1つのテーブルに
+    対して試せている、またはその必要性(意図しないスキーマ変更のリスク等)を説明できる。
 
-## フロントエンド編(Step17〜21、バックエンド完了後)
+## フロントエンド編(Step19〜23、バックエンド完了後)
 
-Step0〜16(バックエンド)の間は、Step5の画面共通化を除いて最低限のThymeleaf
+Step0〜18(バックエンド)の間は、Step5の画面共通化を除いて最低限のThymeleaf
 (CSS装飾無し、素のHTML相当)で進め、フロントエンドはバックエンドが一通り完了してから
-本格的に着手する。理由は、Ajax通信やCSRFトークン連携がバックエンドのREST API(Step12)・
-Security(Step13/14)の理解を前提とするため。
+本格的に着手する。理由は、Ajax通信やCSRFトークン連携がバックエンドのREST API(Step14)・
+Security(Step15/16)の理解を前提とするため。
 
-## Step17: JavaScript基礎(DOM操作・イベント・Promise)
+## Step19: JavaScript基礎(DOM操作・イベント・Promise)
 - 目的: jQueryやAjaxに入る前に、素のJavaScriptでDOM操作・イベントハンドリング・非同期処理の基本を理解する。
 - 概念: `document.querySelector`、イベントリスナー、`Promise`、`async`/`await`。
-- 前提Step: Step16
+- 前提Step: Step18
 - 完了条件: 素のJavaScriptだけで、ボタンクリックに応じて画面の一部を書き換えられる。
 
-## Step18: CSSレイアウト
+## Step20: CSSレイアウト
 - 目的: 装飾ではなくレイアウト崩れを直せるレベルのCSSを身につける(画面構造の共通化はStep5で対応済み)。
 - 概念: Flexbox/Grid、メディアクエリ(レスポンシブ)。
-- 前提Step: Step17
+- 前提Step: Step19
 - 完了条件: 主要画面がFlexbox/Gridで崩れずに表示される。
 
-## Step19: クライアントサイドバリデーション
+## Step21: クライアントサイドバリデーション
 - 目的: Step6のサーバーサイドバリデーションと対比しながら、即時フィードバック用のクライアント側チェックを実装する。
 - 概念: HTML5バリデーション属性(`required`等)、JavaScriptによる入力チェック、サーバー側検証との役割分担。
-- 前提Step: Step17
+- 前提Step: Step19
 - 完了条件: 明らかな入力ミス(未入力・形式違反)は送信前にクライアント側で気づける。最終チェックはサーバー側(Step6)に残っている。
 
-## Step20: jQuery入門
+## Step22: jQuery入門
 - 目的: 素のJavaScriptで書いていたDOM操作・イベント処理をjQueryで書き直し、何が簡潔になるかを比較する。
 - 概念: セレクタ、`.on()`によるイベントバインド、要素の生成・追加・削除。
-- 前提Step: Step17
-- 完了条件: Step17で書いたDOM操作の一部をjQueryで書き換え、コード量・書き方の違いを説明できる。
+- 前提Step: Step19
+- 完了条件: Step19で書いたDOM操作の一部をjQueryで書き換え、コード量・書き方の違いを説明できる。
 
-## Step21: Ajax通信とCSRF連携
+## Step23: Ajax通信とCSRF連携
 - 目的: 画面遷移を伴わずにサーバーとJSONをやり取りする。Spring SecurityのCSRF保護下でPOSTリクエストを送る。
 - 概念: `$.ajax`/`fetch`、JSONのシリアライズ/デシリアライズ、CSRFトークンをヘッダー/パラメータに埋め込む方法、ブラウザ開発者ツール(Networkタブ)でのデバッグ。
-- 前提Step: Step12(REST API)、Step13(Security/CSRF)、Step20
-- 完了条件: 画面遷移無しでStep12のREST APIにPOSTでき、CSRF保護が有効なままリクエストが成功する。ブラウザの開発者ツールでリクエスト/レスポンスを確認できる。
+- 前提Step: Step14(REST API)、Step15(Security/CSRF)、Step22
+- 完了条件: 画面遷移無しでStep14のREST APIにPOSTでき、CSRF保護が有効なままリクエストが成功する。ブラウザの開発者ツールでリクエスト/レスポンスを確認できる。
 
 ## 発展メニュー(任意、順不同)
 
@@ -294,3 +334,5 @@ Security(Step13/14)の理解を前提とするため。
 - OpenAPI/Swaggerによるドキュメント化
 - シークレット管理(認証情報の環境変数化)
 - キャッシュ・非同期処理(`@Async`)
+- XSS対策の意識(Thymeleafの`th:text`は自動エスケープするが`th:utext`は危険、という理解)
+- CI/CDパイプライン(GitHub Actions等によるビルド・テストの自動化)
