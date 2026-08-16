@@ -87,7 +87,7 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 | 4 | record(不変データクラス) | DTOやちょっとした値オブジェクトを`record`で表現している、または「なぜここは`record`にしなかったか」を説明できる | Step9(DTO設計) |
 | 5 | interfaceによる抽象化 | `JpaRepository`の継承に加え、Serviceそのものをinterface+実装クラスに分けている、または差し替え可能な設計がある | Step8(レイヤードアーキテクチャ) |
 | 6 | enum(状態・種別の型安全な表現) | ロールや種別のような固定値を、生の文字列比較ではなく`enum`で表現している | Step8(レイヤードアーキテクチャ)、既存コードの`Role`文字列比較の見直し |
-| 7 | 例外処理の使い分け | 独自例外クラス(例: `〇〇NotFoundException`)を定義し、適切な層でスローしている | Step12(REST API/例外処理) |
+| 7 | 例外処理の使い分け(try-catch-finally、try-with-resources/AutoCloseable、独自例外) | (a)try-catch-finallyの基本構文を説明・使用できる。(b)独自例外クラス(例: `〇〇NotFoundException`)を定義し、適切な層でスローしている。(c)ファイルI/O等リソースを扱うコードがあれば、try-with-resourcesで自動クローズしている | Step12(REST API/例外処理)。(c)は発展メニューの「ファイルアップロード」実装時が自然な実証機会。それまでは、Spring/JPAがリソース管理を肩代わりしているため実証条件を満たすコードが無くて当然であり、会話で仕組みを説明できるかの確認に留めてよい |
 | 8 | Collection操作 | `List`/`Map`/`Set`に対する重複除去・ソート・集計等の操作がある | Step2〜Step4(最小アプリ/フォーム) |
 | 9 | ジェネリクス | `JpaRepository<Game, Long>`のような型パラメータ付きの宣言を読み書きできる | Step8(レイヤードアーキテクチャ) |
 | 10 | Stream API | `.stream().filter().map()`等を使ったコレクション処理・変換がある | Step9(Entity→DTO変換) |
