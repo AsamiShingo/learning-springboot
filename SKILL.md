@@ -193,7 +193,7 @@ Step0(前提確認)は他のStepと違い、単発の完了・未完了ではな
 トリガー例: 「今の状況見せて」「別のステップからやりたい」「全体どうなってる?」
 
 - `.claude/state/learning-springboot/PROGRESS.md` のテーブルをそのまま提示する。Step0チェックリストのサブテーブルも
-  あわせて提示し、「実証済み: n/13」のように件数で進捗を分かりやすく示す(項目数は
+  あわせて提示し、「実証済み: n/16」のように件数で進捗を分かりやすく示す(項目数は
   `.claude/state/learning-springboot/CURRICULUM.md`のStep0チェックリストに準じる)。
 - `.claude/state/learning-springboot/CURRICULUM.md` に依存関係マップ(Mermaid図)があれば、状態(完了/進行中/未着手)を
   併記して見せる。テキストのテーブルだけでなく、俯瞰図としても現在地が分かるようにする。

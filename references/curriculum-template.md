@@ -103,6 +103,9 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 | 11 | Optional | `Repository`の検索結果を`Optional`のまま扱い、`orElseThrow`等で例外に変換している | Step9(Service層) |
 | 12 | equals/hashCodeの契約 | Entity(特に複合主キー相当のクラス)やDTOで`equals`/`hashCode`を意図して定義・確認している(recordなら自動生成される点との対比も含む) | Step7(DB接続/Entity設計) |
 | 13 | ラムダ式/関数型インターフェース | `Comparator`やStream内のラムダ、テストの`when(...).thenReturn(...)`のような関数型の記法を使っている | Step10〜Step12 |
+| 14 | 継承・ポリモーフィズム・抽象クラス | 共通処理を親クラス/抽象クラスに切り出している、または同じinterface/親クラスに対して異なる実装を差し替えて使う設計がある | Step9(レイヤードアーキテクチャ)。この規模のアプリでは継承階層が自然には出てこないことも多いため、無ければ「どこで使うと有効そうか」「なぜここでは使わなかったか」を会話で説明できるかの確認でよい |
+| 15 | ラッパークラス・オートボクシング | `Integer`/`Long`/`Boolean`等のラッパー型を、プリミティブ型ではなく意図して使っている(nullを許容したい場面でラッパー型を選ぶ理由を説明できる) | Step7(DB接続/Entity設計)。Entityの`Integer gameId`、`Boolean isDeleted`等が実例になる |
+| 16 | アクセス修飾子・パッケージ設計 | クラス/メソッド/フィールドの`public`/`private`/パッケージプライベートを意図して使い分けている(全て`public`にしていない) | Step9(レイヤードアーキテクチャ) |
 
 - 各項目の状態は「未実証 / 実証済み」の2値。`.claude/state/learning-springboot/PROGRESS.md`に
   Step0専用のサブテーブルとして持つ。
@@ -154,9 +157,12 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 
 ## Step4: Thymeleafによる画面遷移とフォーム
 - 目的: 一覧→詳細の画面遷移と、フォーム送信の受け取りを実装する。
-- 概念: `Model`、`th:each`/`th:if`、リダイレクト vs フォワード、`@ModelAttribute`。
+- 概念: `Model`、`th:each`/`th:if`/`th:switch`、リダイレクト vs フォワード、`@ModelAttribute`、
+  `th:object`によるフォームオブジェクトバインディング、チェックボックス/ラジオボタン/
+  セレクトボックスの値反映(`th:checked`/`th:selected`)。
 - 前提Step: Step2
 - 完了条件: 一覧→詳細の画面遷移ができ、フォーム送信でデータを追加できる(永続化はまだ不要)。
+  フォームにチェックボックスかセレクトボックスを最低1つ含み、選択状態が正しく反映・送信される。
 
 ## Step5: 画面共通化の基礎(Thymeleaf Fragment)
 - 目的: Step4以降、画面数が増えていく前に、ヘッダー/フッターなど共通部分を1箇所にまとめておく。
