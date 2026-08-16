@@ -88,9 +88,9 @@ Step0(前提確認)は他のStepと違い、単発の完了・未完了ではな
 ### Step0チェックリスト
 | # | 項目 | 状態 | 実証箇所 |
 |---|---|---|---|
-| 1 | 基本構文(if/for/while等) | 実証済み | GameControllerの一覧表示の分岐処理 |
+| 1 | 基本構文(if/for/while等) | 実証済み | XxxControllerの一覧表示の分岐処理 |
 | 3 | クラス設計・コンストラクタ設計 | 未実証 | |
-| 5 | interfaceによる抽象化 | 実証済み | GameRepository, JpaRepository継承 |
+| 5 | interfaceによる抽象化 | 実証済み | XxxRepository, JpaRepository継承 |
 | 7 | 例外処理の使い分け | 未実証 | |
 | ... | | | |
 ```

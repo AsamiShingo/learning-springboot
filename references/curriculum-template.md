@@ -104,10 +104,10 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 | 3 | クラス設計・コンストラクタ設計 | Entity/DTOが、責務の合った単位で設計され、不要なsetterを持たない | Step10(DTO設計) |
 | 4 | record(不変データクラス) | DTOやちょっとした値オブジェクトを`record`で表現している、または「なぜここは`record`にしなかったか」を説明できる | Step10(DTO設計) |
 | 5 | interfaceによる抽象化 | `JpaRepository`の継承に加え、Serviceそのものをinterface+実装クラスに分けている、または差し替え可能な設計がある | Step9(レイヤードアーキテクチャ) |
-| 6 | enum(状態・種別の型安全な表現) | ロールや種別のような固定値を、生の文字列比較ではなく`enum`で表現している | Step9(レイヤードアーキテクチャ)、既存コードの`Role`文字列比較の見直し |
+| 6 | enum(状態・種別の型安全な表現) | ロールや種別のような固定値を、生の文字列比較ではなく`enum`で表現している | Step9(レイヤードアーキテクチャ)、既存コードに生文字列でのロール比較(例: `"ADMIN".equals(user.getRole())`)が残っていればその見直し |
 | 7 | 例外処理の使い分け(try-catch-finally、try-with-resources/AutoCloseable、独自例外) | (a)try-catch-finallyの基本構文を説明・使用できる。(b)独自例外クラス(例: `〇〇NotFoundException`)を定義し、適切な層でスローしている。(c)ファイルI/O等リソースを扱うコードがあれば、try-with-resourcesで自動クローズしている | Step14(REST API/例外処理)。(c)は発展メニューの「ファイルアップロード」実装時が自然な実証機会。それまでは、Spring/JPAがリソース管理を肩代わりしているため実証条件を満たすコードが無くて当然であり、会話で仕組みを説明できるかの確認に留めてよい |
 | 8 | Collection操作 | `List`/`Map`/`Set`に対する重複除去・ソート・集計等の操作がある | Step2〜Step4(最小アプリ/フォーム) |
-| 9 | ジェネリクス | `JpaRepository<Game, Long>`のような型パラメータ付きの宣言を読み書きできる | Step9(レイヤードアーキテクチャ) |
+| 9 | ジェネリクス | `JpaRepository<Xxx, Long>`のような型パラメータ付きの宣言を読み書きできる | Step9(レイヤードアーキテクチャ) |
 | 10 | Stream API | `.stream().filter().map()`等を使ったコレクション処理・変換がある | Step10(Entity→DTO変換) |
 | 11 | Optional | `Repository`の検索結果を`Optional`のまま扱い、`orElseThrow`等で例外に変換している | Step9(Service層) |
 | 12 | equals/hashCodeの契約 | Entity(特に複合主キー相当のクラス)やDTOで`equals`/`hashCode`を意図して定義・確認している(recordなら自動生成される点との対比も含む) | Step7(DB接続/Entity設計) |
@@ -237,7 +237,7 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   メソッド名や`Specification`で組み立てる方法。
 - 前提Step: Step10
 - 完了条件: 一覧画面がページ番号によって表示件数を絞り込め、何らかの検索条件
-  (タイトルの部分一致等)で絞り込み表示ができる。APIやDTOも`Page<GameResponse>`の
+  (タイトルの部分一致等)で絞り込み表示ができる。APIやDTOも`Page<XxxResponse>`の
   ようにページ情報(総件数・総ページ数等)を含めて返せる。
 
 ## Step12: テストの導入
