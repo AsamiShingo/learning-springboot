@@ -282,10 +282,13 @@ Step0(前提確認)は他のStepと違い、単発の完了・未完了ではな
 
 トリガー例: 「次何やればいい?」「Step5から始めたい」
 
-- **対象StepがStep2で、`.claude/state/learning-springboot/CURRICULUM.md`にまだアプリの
-  題材の記録が無い場合、先に「アプリの題材決め」の対話を行う**
-  (`references/curriculum-template.md`の該当セクション参照)。決まったら
-  `CURRICULUM.md`冒頭に記録してから、通常のStep2の説明に進む。
+- **`.claude/state/learning-springboot/CURRICULUM.md`にアプリの題材の記録が無い状態で、
+  実装を伴うStep(Step2以降。Step0・Step1は題材が未定でも進められるため対象外)に
+  着手しようとしている場合、対象StepがStep2かどうかに関わらず、先に「アプリの
+  題材決め」の対話を行う**(`references/curriculum-template.md`の該当セクション参照)。
+  「前提Stepは強制しない」方針によりStep4やStep7から始める学習者もいるため、
+  Step番号ではなく題材記録の有無を発動条件にする。決まったら`CURRICULUM.md`冒頭に
+  記録してから、通常のStepの説明に進む。
 - 対象Stepの目的・学ぶ概念・完了条件を `.claude/state/learning-springboot/CURRICULUM.md` から提示する。
 - **学習者のアプリに即した「作る機能」を提案する**: Stepの概念を学ぶために、学習者が
   今作っているアプリの題材・既存のデータ構造を踏まえた上で、具体的に何を実装するかを
