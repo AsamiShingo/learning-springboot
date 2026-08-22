@@ -1,4 +1,4 @@
-<!-- template-version: 2026-08-22 -->
+<!-- template-version: 2026-08-22.2 -->
 
 # SpringBoot Web開発 学習カリキュラム(汎用テンプレート)
 
@@ -43,8 +43,9 @@ Step30とStep31の間に挟まる学習順のため、目次上もそこに置�
 
 このカリキュラムにおける「修了」は、**Step0〜Step23、Step24、Step25の全カリキュラムが
 完了していること**(Step0チェックリストは16項目すべて`未実証`以外の状態になっている、
-Step1〜25は全て「完了」)を基本ラインとする。Step18(運用仕上げ)・Step26〜33(React編)・
-発展メニューは、いずれも任意/発展Stepであり修了の必須条件には含めない。
+Step1〜25(Step18を除く)は全て「完了」)を基本ラインとする。Step18(運用仕上げ)・
+Step26〜33(React編)・発展メニューは、いずれも任意/発展Stepであり修了の必須条件には
+含めない。
 
 修了の判定は、`.claude/state/learning-springboot/PROGRESS.md`の記録を鵜呑みにせず、
 実際のリポジトリの状態を横断的に確認した上で行う(`SKILL.md`のモード6「修了確認」参照)。
@@ -400,7 +401,7 @@ Step19に進むための前提ではない——経由していなくてもフ�
 ## Step19: JavaScript基礎(DOM操作・イベント・Promise)
 - 目的: jQueryやAjaxに入る前に、素のJavaScriptでDOM操作・イベントハンドリング・非同期処理の基本を理解する。
 - 概念: `document.querySelector`、イベントリスナー、`Promise`、`async`/`await`。
-- 前提Step: Step18
+- 前提Step: Step17(Step18は任意/発展Stepであり前提ではない)
 - 完了条件: 素のJavaScriptだけで、ボタンクリックに応じて画面の一部を書き換えられる。
 
 ## Step20: CSSレイアウト
