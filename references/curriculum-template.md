@@ -1,4 +1,4 @@
-<!-- template-version: 2026-08-22.4 -->
+<!-- template-version: 2026-08-22.5 -->
 
 # SpringBoot Web開発 学習カリキュラム(汎用テンプレート)
 
@@ -138,7 +138,7 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 | 4 | record(不変データクラス) | DTOやちょっとした値オブジェクトを`record`で表現している、または「なぜここは`record`にしなかったか」を説明できる | Step10(DTO設計) |
 | 5 | interfaceによる抽象化 | `JpaRepository`の継承に加え、Serviceそのものをinterface+実装クラスに分けている、または差し替え可能な設計がある | Step9(レイヤードアーキテクチャ) |
 | 6 | enum(状態・種別の型安全な表現) | ロールや種別のような固定値を、生の文字列比較ではなく`enum`で表現している | Step9(レイヤードアーキテクチャ)、既存コードに生文字列でのロール比較(例: `"ADMIN".equals(user.getRole())`)が残っていればその見直し |
-| 7 | 例外処理の使い分け(try-catch-finally、try-with-resources/AutoCloseable、独自例外) | (a)try-catch-finallyの基本構文を説明・使用できる。(b)独自例外クラス(例: `〇〇NotFoundException`)を定義し、適切な層でスローしている。(c)ファイルI/O等リソースを扱うコードがあれば、try-with-resourcesで自動クローズしている | Step14(REST API/例外処理)。(c)はStep25(ファイル出力。`HttpServletResponse`へのストリーム書き込みやCSV/Excel出力でリソース管理が発生する)が最初の自然な実証機会。Step25にまだ着手していない場合、発展メニューの「ファイルアップロード」も同様の機会になる。それまでは、Spring/JPAがリソース管理を肩代わりしているため実証条件を満たすコードが無くて当然であり、「会話で確認済み」ステータス(口頭で仕組みを説明できるかの確認)に留めてよい。Step25にも発展メニューにも着手する予定が無いと判断した場合は「対象外」でもよい |
+| 7 | 例外処理の使い分け(try-catch-finally、try-with-resources/AutoCloseable、独自例外) | (a)try-catch-finallyの基本構文を説明・使用できる。(b)独自例外クラス(例: `〇〇NotFoundException`)を定義し、適切な層でスローしている。(c)ファイルI/O等リソースを扱うコードがあれば、try-with-resourcesで自動クローズしている | Step14(REST API/例外処理)。(c)はStep25(ファイル出力。`HttpServletResponse`へのストリーム書き込みやCSV/Excel出力でリソース管理が発生する)が必ず来る実証機会。Step25は修了基準に含まれる必須Stepのため、原則として(c)に「対象外」は選ばない。Step25着手前の暫定状態としては、Spring/JPAがリソース管理を肩代わりしているため実証条件を満たすコードが無くて当然であり、「会話で確認済み」ステータス(口頭で仕組みを説明できるかの確認)に留めてよい |
 | 8 | Collection操作 | `List`/`Map`/`Set`に対する重複除去・ソート・集計等の操作がある | Step2〜Step4(最小アプリ/フォーム) |
 | 9 | ジェネリクス | `JpaRepository<Xxx, Long>`のような型パラメータ付きの宣言を読み書きできる | Step9(レイヤードアーキテクチャ) |
 | 10 | Stream API | `.stream().filter().map()`等を使ったコレクション処理・変換がある | Step10(Entity→DTO変換) |
