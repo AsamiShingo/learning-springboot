@@ -1,4 +1,4 @@
-<!-- template-version: 2026-08-22.12 -->
+<!-- template-version: 2026-08-22.13 -->
 
 # SpringBoot Web開発 学習カリキュラム(汎用テンプレート)
 
@@ -444,7 +444,7 @@ N+1・ページングといった概念はまだ学習前。上記3条件は**�
 - 完了条件: ログイン後のユーザー特定が`SecurityContext`経由になっている。ロールごとのアクセス制御にテストがある。
 
 ## Step21: ロギング・Interceptor・Filter <!-- id: logging-interceptor-filter -->
-- 目的: Step19〜16で構築したSpring Securityの仕組み(`SecurityFilterChain`)が、
+- 目的: Step19〜20で構築したSpring Securityの仕組み(`SecurityFilterChain`)が、
   実はServletコンテナ標準のFilterチェーンの上に成り立っていることを理解する。
   Filterより一段Spring MVC寄りの`HandlerInterceptor`との使い分け、実務で欠かせない
   ロギング設計を身につける。
@@ -474,12 +474,12 @@ N+1・ページングといった概念はまだ学習前。上記3条件は**�
   - `ddl-auto=update`に頼らないスキーマ管理の仕組み(Flyway等)を最低1つのテーブルに
     対して試せている、またはその必要性(意図しないスキーマ変更のリスク等)を説明できる。
 
-## フロントエンド編(Step23〜23、バックエンド完了後)
+## フロントエンド編(Step23〜27、バックエンド完了後)
 
-Step0〜17(バックエンドの必須Step)の間は、Step5の画面共通化を除いて最低限のThymeleaf
+Step0〜21(バックエンドの必須Step)の間は、Step5の画面共通化を除いて最低限のThymeleaf
 (CSS装飾無し、素のHTML相当)で進め、フロントエンドはバックエンドが一通り完了してから
 本格的に着手する。理由は、Ajax通信やCSRFトークン連携がバックエンドのREST API(Step17)・
-Security(Step19/16)の理解を前提とするため。Step22(運用仕上げ)は任意/発展Stepであり、
+Security(Step19/20)の理解を前提とするため。Step22(運用仕上げ)は任意/発展Stepであり、
 Step23に進むための前提ではない——経由していなくてもフロントエンド編に進んでよい。
 
 ## Step23: JavaScript基礎(DOM操作・イベント・Promise) <!-- id: js-basics -->
