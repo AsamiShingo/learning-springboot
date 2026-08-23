@@ -1,4 +1,4 @@
-<!-- template-version: 2026-08-22.17 -->
+<!-- template-version: 2026-08-22.18 -->
 
 # SpringBoot Web開発 学習カリキュラム(汎用テンプレート)
 
@@ -72,6 +72,8 @@ graph LR
   S4 --> S5[Step5 画面共通化]
   S4 --> S6[Step6 バリデーションエラー]
   S2 --> S7[Step7 DB接続]
+  S4 --> S7
+  S6 --> S7
   S7 --> S8[Step8 グローバルエラーページ]
   S7 --> S9[Step9 レイヤード]
   S9 --> S10[Step10 DTO分離]
@@ -148,13 +150,13 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 | class-design | 3 | クラス設計・コンストラクタ設計 | Entity/DTOが、責務の合った単位で設計され、不要なsetterを持たない | Step10(DTO設計) |
 | record-immutable | 4 | record(不変データクラス) | DTOやちょっとした値オブジェクトを`record`で表現している、または「なぜここは`record`にしなかったか」を説明できる | Step10(DTO設計) |
 | interface-abstraction | 5 | interfaceによる抽象化 | `JpaRepository`の継承に加え、Serviceそのものをinterface+実装クラスに分けている、または差し替え可能な設計がある | Step9(レイヤードアーキテクチャ) |
-| enum-type-safety | 6 | enum(状態・種別の型安全な表現) | ロールや種別のような固定値を、生の文字列比較ではなく`enum`で表現している | Step9。生文字列でのロール比較(例: `"ADMIN".equals(user.getRole())`)が残っていればその見直し。題材決めで役割が2種類以上あることを確認しているため原則`enum`での実装を促す。役割・種別に相当する概念が題材に無いまま進めている場合に限り「会話で確認済み」でよい |
+| enum-type-safety | 6 | enum(状態・種別の型安全な表現) | ロールや種別のような固定値を、生の文字列比較ではなく`enum`で表現している | 貸出状態のような「種別・ステータス」はStep9(レイヤードアーキテクチャ)時点でも実装され得るため、その段階で機会があれば促す。ただし「ロール」の実例(例: `"ADMIN".equals(user.getRole())`)はUserエンティティ・ロール概念が実際に登場するStep16(セッション認証)〜Step19/20(Security・認可)が自然な実証機会であり、Step9時点でロールがまだ存在しない学習者に無理に促さない。題材決めで役割が2種類以上あることを確認しているため、遅くともStep16〜20では原則`enum`での実装を促す。役割・種別に相当する概念が題材に無いまま進めている場合に限り「会話で確認済み」でよい |
 | exception-handling | 7 | 例外処理の使い分け(try-catch-finally、try-with-resources/AutoCloseable、独自例外) | (a)try-catch-finallyの基本構文を説明・使用できる。(b)独自例外クラス(例: `〇〇NotFoundException`)を定義し、適切な層でスローしている。(c)ファイルI/O等リソースを扱うコードがあれば、try-with-resourcesで自動クローズしている | Step17(REST API/例外処理)。(b)はStep13(`OptimisticLockingFailureException`の業務エラー変換)も実証機会。(c)はStep14(ファイル出力)が必ず来る実証機会——Step14は必須Stepのため(c)に「対象外」は原則選ばない。Step14着手前は「会話で確認済み」に留めてよい |
 | collection-ops | 8 | Collection操作 | `List`/`Map`/`Set`に対する重複除去・ソート・集計等の操作がある | Step2〜Step4(最小アプリ/フォーム)。Step12(SQL実践)でJPQLの集計クエリ結果(件数・合計等)をJavaのCollectionで受け取り加工する場面も実証機会になる |
-| generics | 9 | ジェネリクス | `JpaRepository<Xxx, Long>`のような型パラメータ付きの宣言を読み書きできる | Step9(レイヤードアーキテクチャ) |
+| generics | 9 | ジェネリクス | `JpaRepository<Xxx, Long>`のような型パラメータ付きの宣言を読み書きできる | 実際にはStep7(DB接続)でRepositoryを書いた時点で満たされることが多い。Step7完了時点のレビューで先に確認し、そこで満たされていなければStep9(レイヤードアーキテクチャ)で改めて確認する |
 | stream-api | 10 | Stream API | `.stream().filter().map()`等を使ったコレクション処理・変換がある | Step10(Entity→DTO変換)。Step12(SQL実践)で集計クエリの結果セットを`.stream()`で加工する場面も実証機会になる |
 | optional | 11 | Optional | `Repository`の検索結果を`Optional`のまま扱い、`orElseThrow`等で例外に変換している | Step9(Service層) |
-| equals-hashcode | 12 | equals/hashCodeの契約 | Entity(特に複合主キー相当のクラス)やDTOで`equals`/`hashCode`を意図して定義・確認している(recordなら自動生成される点との対比も含む) | Step7(DB接続/Entity設計)。題材に複合主キー相当のクラスが無い場合は、単一IDのEntityで`equals`/`hashCode`をどう定義すべきかを口頭で説明できれば「会話で確認済み」でよい |
+| equals-hashcode | 12 | equals/hashCodeの契約 | Entity(特に複合主キー相当のクラス)やDTOで`equals`/`hashCode`を意図して定義・確認している(recordなら自動生成される点との対比も含む)。**JPA Entityについては、`@GeneratedValue`で自動採番されるIDを素朴に`hashCode`へ含めると、永続化前(id未確定)と永続化後でhashCode値が変わり`HashSet`等で不整合を起こす**という落とし穴があることも説明できる(対策の一例: ビジネスキーを使う、`getClass()`ベースの比較にする、`Set`に入れる運用を避ける等) | Step7(DB接続/Entity設計)。題材に複合主キー相当のクラスが無い場合は、単一IDのEntityで`equals`/`hashCode`をどう定義すべきかを口頭で説明できれば「会話で確認済み」でよい |
 | lambda-functional-interface | 13 | ラムダ式/関数型インターフェース | `Comparator`やStream内のラムダ、テストの`when(...).thenReturn(...)`のような関数型の記法を使っている | Step10〜Step15 |
 | inheritance-polymorphism | 14 | 継承・ポリモーフィズム・抽象クラス | 共通処理を親クラス/抽象クラスに切り出している、または同じinterface/親クラスに対して異なる実装を差し替えて使う設計がある | Step9(レイヤードアーキテクチャ)。この規模のアプリでは継承階層が自然には出てこないことも多いため、無ければ「どこで使うと有効そうか」「なぜここでは使わなかったか」を口頭で説明できるかの確認(「会話で確認済み」ステータス)でよい。今後も出てくる見込みが無いと判断した場合は「対象外」でもよい |
 | wrapper-boxing | 15 | ラッパークラス・オートボクシング | `Integer`/`Long`/`Boolean`等のラッパー型を、プリミティブ型ではなく意図して使っている(nullを許容したい場面でラッパー型を選ぶ理由を説明できる) | Step7(DB接続/Entity設計)。Entityの`Long id`、`Boolean isDeleted`等が実例になる |
@@ -399,6 +401,11 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 - 概念: セッションスコープ、Cookie、平文パスワード保存の危険性。
 - 前提Step: Step9(レイヤーが確立していること)
 - 完了条件: ログイン/ログアウトができ、未ログイン時は保護されたページにアクセスできない。
+  **この段階ではパスワードは平文保存のままでよい(意図的にハッシュ化しない)**——
+  Step19でSpring Securityにより弱点を解決する、という動機付けのストーリーを成立させる
+  ため。学習者が自発的にハッシュ化を実装した場合は、その意欲を否定せず、Step19では
+  「今度はSpring Securityの標準的な仕組み(BCrypt等)に置き換える」という形で
+  引き継ぐ。
 
 ## Step17: REST APIと例外処理の設計 <!-- id: rest-api -->
 - 目的: `@RestController`でJSON APIを作り、業務エラーを適切なHTTPステータスにマッピングする。
@@ -412,15 +419,20 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 - 目的: これまでは「自分がAPIを提供する側」だけを学んできたが、実務では「他システムの
   APIを呼び出す側」になることも同じくらい多い。外部API呼び出しと、それに伴う障害への
   向き合い方を学ぶ。
-- 概念: `RestTemplate`(同期・従来からの標準)、`WebClient`(non-blocking、今後推奨される
-  クライアント)、外部APIレスポンスのDTOへのマッピング、タイムアウト設定、外部障害時の
-  ハンドリング(接続エラー・4xx/5xx応答時にアプリ全体を落とさない設計)、外部APIをモック化
-  したテスト(WireMock等、または`@MockBean`でのクライアント差し替え)。
+- 概念: `RestClient`(Spring Framework 6.1〜。同期呼び出しの現行の標準的な選択肢)、
+  `WebClient`(non-blocking。リアクティブな呼び出しが必要な場面向け)、外部API
+  レスポンスのDTOへのマッピング、タイムアウト設定、外部障害時のハンドリング
+  (接続エラー・4xx/5xx応答時にアプリ全体を落とさない設計)、外部APIをモック化した
+  テスト(WireMock等、または`@MockBean`でのクライアント差し替え)。
+  **`RestTemplate`は現在Spring公式がメンテナンスモード(積極的な新機能追加なし)と
+  位置づけている旧世代のAPI**であり、新規学習では`RestClient`を優先する。ただし
+  既存プロジェクトでは今も`RestTemplate`が広く使われているため、読んで理解できる
+  程度の認識(名前と立ち位置)は持っておくとよい、という位置づけで触れる程度に留める。
 - 前提Step: Step17(自分がAPIを提供する経験があると、呼び出す側の視点との対比が理解しやすい)
 - 完了条件:
-  - 何らかの公開API(郵便番号検索API、天気API等の無料API)を`RestTemplate`または
-    `WebClient`で呼び出し、レスポンスをDTOにマッピングして画面またはAPIレスポンスに
-    反映できる。
+  - 何らかの公開API(郵便番号検索API、天気API等の無料API)を`RestClient`
+    (または`WebClient`)で呼び出し、レスポンスをDTOにマッピングして画面または
+    APIレスポンスに反映できる。
   - 外部APIがタイムアウト・404・500等で失敗した場合でも、アプリ全体が落ちずに
     適切なエラーハンドリング(ユーザー向けのエラー表示や、業務エラーへの変換)ができている。
   - 外部API呼び出しを含む処理のテストが、実際の外部APIに依存せず書けている
