@@ -1,9 +1,15 @@
-<!-- template-version: 2026-08-22.19 -->
+<!-- template-version: 2026-08-22.21 -->
 
 # SpringBoot Web開発 学習カリキュラム(汎用テンプレート)
 
 対象: Javaの基礎(OOP・コレクション・例外処理・ラムダ/Stream)を一通り学んだ人が、
 SpringBootでWebアプリケーション開発を段階的に学ぶためのカリキュラム。
+
+**前提バージョン**: Spring Boot 4.x / Java 21 LTS(または25 LTS)を前提に記述する。
+バージョンが変われば、アノテーション名・設定キー・デフォルト値等の個々の記述が
+現行と食い違う可能性がある。プロジェクトの実際のバージョンがこれと異なる場合、
+メンターは`pom.xml`の実際のバージョンを確認した上で、該当箇所の記述が現行バージョンでも
+成立するかをその場で検証してから使う(うろ覚えで書き写させない、という既存方針と同じ)。
 
 このファイルはプロジェクト非依存のテンプレートです。学習を始めるプロジェクトに
 `.claude/state/learning-springboot/CURRICULUM.md` が無い場合、このファイルをコピーして使います。
@@ -15,10 +21,19 @@ SpringBootでWebアプリケーション開発を段階的に学ぶためのカ�
 別のStepから始めたい場合はそちらを優先してよいですが、前提が未完了だと
 難易度が上がる場合がある旨をメンターは伝えます。
 
+**前提Stepには2種類ある**: (1) 前のStepで作ったコード・データ構造がそのまま次のStepの
+実装土台になる**技術的な前提**(例: Step9のレイヤー構成が無いとStep10のDTO分離は
+成立しない)と、(2) 前提が無くても実装自体は成立するが、理解のしやすさ・動機付けの
+ために先にやることを勧めるだけの**推奨順のみ**(例: Step7のDB接続がまだでも
+Step8のエラーページ自体は作れる)。**前提Step欄に特に注記が無ければ技術的な前提を
+意味し、「(推奨順のみ)」と注記があるものは技術的な依存が無い**。この区別は、
+学習者が前提Stepを飛ばして進んだときにメンターが出す警告の強さ(「動かない可能性が
+高い」か「多少分かりにくいが進められる」か)を左右する。
+
 **Step番号とid**: 見出し行末の`<!-- id: xxx -->`が**変更されない一意の識別子**で、
 「Step12」のような表示用の番号は自由に変更してよい。学習者の
 `.claude/state/learning-springboot/PROGRESS.md`はidで完了状態を管理するため、番号を
-変更しても完了記録は失われない(詳細は`SKILL.md`の保守者向けメモ参照)。
+変更しても完了記録は失われない(詳細は[`references/maintainer-notes.md`](maintainer-notes.md)参照)。
 Step0チェックリストの各項目にも同様に`id`列がある。
 **idを付ける対象は「学習内容を持つセクション」全般**で、Stepの見出しに限らない
 (「アプリの題材決め」「発展メニュー」「React編」等)。`## 目次`や`## 修了基準`の
@@ -60,58 +75,61 @@ Step29〜36(React編)・発展メニューは、いずれも任意/発展Stepで
 実際のリポジトリの状態を横断的に確認した上で行う(`SKILL.md`のモード6「修了確認」参照)。
 退行や記録の付け間違いがあり得るため、最終確認は必ずコードを実際に見て行う。
 
-任意のStepから始められるように、前提関係を図にしておく。矢印は「先にやっておくと
-やりやすい」という推奨関係であり、強制ではない。
+任意のStepから始められるように、前提関係を図にしておく。**実線矢印(`-->`)は技術的な
+前提(前のStepの成果物が無いと成立しない)、点線矢印(`-.->`)は推奨順のみ(前提が
+無くても実装は成立する)を示す**。どちらも強制ではない。
 
 ```mermaid
 graph LR
-  S0[Step0 前提確認] --> S1[Step1 環境構築]
+  S0[Step0 前提確認] -.-> S1[Step1 環境構築]
   S1 --> S2[Step2 最小アプリ]
   S2 --> S3[Step3 デプロイ体験]
   S2 --> S4[Step4 画面遷移/フォーム]
   S4 --> S5[Step5 画面共通化]
   S4 --> S6[Step6 バリデーションエラー]
   S2 --> S7[Step7 DB接続]
-  S4 --> S7
-  S6 --> S7
-  S7 --> S8[Step8 グローバルエラーページ]
+  S4 -.-> S7
+  S6 -.-> S7
+  S7 -.-> S8[Step8 グローバルエラーページ]
   S7 --> S9[Step9 レイヤード]
   S9 --> S10[Step10 DTO分離]
   S10 --> S11[Step11 検索/ページング]
   S11 --> S12[Step12 SQL実践]
   S9 --> S13[Step13 排他制御]
-  S6 --> S13
+  S6 -.-> S13
   S7 --> S14[Step14 ファイルアップロード]
   S11 --> S15[Step15 ファイル出力]
-  S14 --> S15
+  S14 -.-> S15
   S9 --> S16[Step16 テスト]
   S9 --> S17[Step17 セッション認証]
   S10 --> S18[Step18 REST API]
-  S17 --> S18
-  S18 --> S19[Step19 外部API連携]
+  S17 -.-> S18
+  S18 -.-> S19[Step19 外部API連携]
   S17 --> S20[Step20 Security入門]
-  S18 --> S20
+  S18 -.-> S20
   S20 --> S21[Step21 認可仕上げ]
   S21 --> S22[Step22 ロギング/Interceptor/Filter]
   S7 --> S23[Step23 運用仕上げ]
-  S3 --> S23
-  S22 --> S23
-  S22 --> S24[Step24 JS基礎]
-  S24 --> S25[Step25 CSSレイアウト]
+  S3 -.-> S23
+  S22 -.-> S23
+  S22 -.-> S24[Step24 JS基礎]
+  S24 -.-> S25[Step25 CSSレイアウト]
   S24 --> S26[Step26 クライアントバリデーション]
   S24 --> S27[Step27 jQuery]
   S18 --> S28[Step28 Ajax+CSRF]
   S20 --> S28
   S27 --> S28
-  S27 --> S29[Step29 React基礎]
+  S27 -.-> S29[Step29 React基礎]
   S29 --> S30[Step30 コンポーネント/props]
   S30 --> S31[Step31 State/イベント]
   S31 --> S32[Step32 データ取得/CORS]
   S18 --> S32
+  S20 --> S32
+  S21 --> S32
   S32 --> S33[Step33 React統合]
   S33 --> S34[Step34 React Router]
   S34 --> S35[Step35 フォーム/CSRF]
-  S28 --> S35
+  S28 -.-> S35
   S35 --> S36[Step36 本番ビルド統合]
   S3 --> S36
 
@@ -131,7 +149,8 @@ graph LR
   class S23,S29,S30,S31,S32,S33,S34,S35,S36 optional;
 ```
 
-(黄色の破線枠のノードは「任意/発展」Stepを示す。必須Stepの完了はこれらに依存しない。)
+(黄色の破線枠のノードは「任意/発展」Stepを示す。必須Stepの完了はこれらに依存しない。
+矢印の実線/点線とノード自体の破線枠は別の意味なので混同しないこと。)
 
 ## Step0: 前提確認(Java基礎の棚卸し) <!-- id: prereq-check -->
 - 目的: Web開発に入る前に、Java基礎が実務レベルで使えるか確認する。
@@ -181,7 +200,7 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
     自動生成される。「Debug As → Spring Boot App」等でのデバッグ実行に慣れる。
   - **選択肢B: VSCode** — Extension Pack for Java、Spring Boot Extension Packを導入。
     `launch.json`によるデバッグ構成に慣れる。
-- 前提Step: Step0
+- 前提Step: Step0(推奨順のみ)
 - 完了条件: 以下を**スクリーンショットまたは具体的な挙動の説明で示せる**こと
   (「できました」という口頭申告のみでは完了としない。メンターはIDE画面を直接見られない)。
   1. わざと文法エラーを入れ、IDE上に赤波線/エラー表示が出ることを確認する。
@@ -215,9 +234,11 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 学習者が今は詳細を詰めたくない場合、後のStep(Step9・Step10・Step17等)に着手する
 段階で改めて拡張を相談してもよい。
 
-決まった題材は`.claude/state/learning-springboot/CURRICULUM.md`の冒頭に一言
-(例:「このプロジェクトで作るアプリ: 蔵書管理アプリ(本・著者・貸出記録)」)として
-書き残しておく。
+決まった題材は`.claude/state/learning-springboot/CURRICULUM.md`の冒頭に
+`<!-- app-topic: 蔵書管理アプリ(本・著者・貸出記録) -->`のような**機械判定できる
+マーカー行**として書き残しておく(人間向けの説明文を併記してもよいが、マーカー行は
+必須)。この見出し・説明文自体はテンプレートに元から含まれているため、マーカーが
+無い状態は「まだ題材が決まっていない」ことを意味する(詳細は`SKILL.md`のモード1参照)。
 
 **学習者への伝え方**: この段階ではEntity・N+1・ページングはまだ学習前。上記3条件は
 **メンターが判断基準として使うためのもの**であり、そのまま読み上げない。専門用語を
@@ -245,8 +266,10 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 - 前提Step: Step2
 - 完了条件: IDEを使わず、コマンドラインだけでjarを起動し、ブラウザから確認できる。
 - **手順はOS/IDEの環境によって変わるので、Step1で選んだ環境に応じて読み替える**:
-  - **Windows**: `mvnw.cmd package` → `java -jar target\(jar名).jar`。ターミナルはコマンドプロンプト/
-    PowerShell、またはEclipse/VSCodeの統合ターミナルのどちらでもよい。
+  - **Windows**: `mvnw.cmd package` → `java -jar target\(jar名).jar`。ターミナルはコマンド
+    プロンプト、またはEclipse/VSCodeの統合ターミナルのどちらでもよい。**PowerShellから
+    実行する場合はカレントディレクトリのコマンドがパスに含まれないため`mvnw.cmd`単体では
+    実行できず、`.\mvnw.cmd package`のように`.\`を付ける必要がある**。
   - **Mac/Linux**: `./mvnw package` → `java -jar target/(jar名).jar`。パス区切りが`/`になる点、
     実行権限(`chmod +x mvnw`)が必要な場合がある点に注意。
   - **Eclipseの場合**: 左下のTerminalビュー、または外部ターミナルから上記コマンドを実行する
@@ -274,25 +297,30 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 
 ## Step6: フォームバリデーションエラーの扱い方 <!-- id: validation-errors -->
 - 目的: 入力エラーを検知するだけでなく、画面にフィードバックするところまで実装する。
-- 概念: `@Valid`、`BindingResult`、`th:errors`、エラー時の入力値保持。
+- 概念: `spring-boot-starter-validation`の追加(Boot 2.3以降`starter-web`には含まれず、
+  これを入れないと`@Valid`が反応しない)、`@Valid`、`BindingResult`、`th:errors`、
+  エラー時の入力値保持。
 - 前提Step: Step4
 - 完了条件: 不正な入力を送るとエラーメッセージが表示され、他の入力済み項目は保持されたまま再入力できる。
 
 ## Step7: DB接続の基礎(選択制: H2 / PostgreSQL) <!-- id: db-connection -->
 - 目的: ハードコードした`List`から実DBへの切り替えを体験する。
 - 概念: `spring-boot-starter-data-jpa`、`@Entity`/`@Id`、datasource設定、`ddl-auto`。
-- 前提Step: Step2(Step4・Step6を先に済ませておくとフォームと連動させやすい)
+- 前提Step: Step2。Step4・Step6は(推奨順のみ)——先に済ませておくとフォームと
+  連動させやすい
 - 完了条件: DBに保存したデータが一覧画面に表示される。H2かPostgreSQLのいずれかを選んで接続できている。
 - 補足: 同じEntity/Repositoryコードのまま設定変更だけでH2⇄PostgreSQLを切り替えられることを確認すると、JPAの抽象化の意味が実感できる。
 
 ## Step8: グローバルエラーページ(404/500) <!-- id: error-pages -->
-- 目的: 予期しない例外が起きたとき、Spring Bootのデフォルト画面(Whitelabel Error Page、
-  スタックトレースが透けて見える)をそのまま学習者やユーザーに見せず、分かりやすい
-  エラー画面を返せるようにする。
+- 目的: 予期しない例外が起きたとき、Spring Bootのデフォルト画面(Whitelabel Error Page。
+  Boot 2.3以降、`server.error.include-stacktrace`の既定値は`never`でありスタックトレースは
+  表示されないが、エラーコードと汎用メッセージだけの素っ気ない画面のままではユーザー
+  フレンドリーではない)をそのまま学習者やユーザーに見せず、分かりやすいエラー画面を
+  返せるようにする。
 - 概念: Spring Bootのデフォルトエラー処理の仕組み、`src/main/resources/templates/error/`
   配下に`404.html`/`500.html`等を置くだけで自動的に使われる規約、独自の`ErrorController`
   による細かい制御(任意)。
-- 前提Step: Step7
+- 前提Step: Step7(推奨順のみ——DBが無くても意図的な例外発生で500ページは作れる)
 - 完了条件: 存在しないURLにアクセスすると404用のカスタム画面が、意図的にコード内で
   例外を発生させると500用のカスタム画面が表示される(デフォルトのWhitelabel Error Page
   のままではない)。
@@ -302,19 +330,29 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   あわせて、複数のRepository操作をひとまとまりの処理として扱うトランザクション境界を理解する。
 - 概念: 関心の分離、コンストラクタインジェクション、`JpaRepository`、`@Transactional`
   (1つのServiceメソッド内で複数のRepository操作をまとめ、途中で例外が起きた場合に
-  それまでの変更もロールバックされる仕組み)。
+  それまでの変更もロールバックされる仕組み)。**`@Transactional`は「効いているつもりで
+  効いていない」事故が多い機能でもあり、次の3点は少なくとも存在を知っておく**:
+  (1) 同一クラス内の自己呼び出し(`this.someMethod()`)ではプロキシを経由しないため
+  トランザクションが開始されない、(2) `private`メソッドに付けても同じ理由で効かない、
+  (3) 既定では検査例外(checked exception)ではロールバックされない
+  (`RuntimeException`とその子孫、または`Error`が既定の対象)。
 - 前提Step: Step7
 - 完了条件:
   - ControllerがRepositoryに直接依存せずServiceを経由している。DBアクセスはRepositoryに閉じている。
   - 複数のRepository操作をまとめて行うServiceメソッドに`@Transactional`を付け、
     意図的に途中で例外を発生させて、それ以前の変更も含めてロールバックされることを確認できる。
+  - 上記の`@Transactional`の落とし穴(自己呼び出し・`private`・検査例外)のうち
+    少なくとも1つについて、自分の実装がその罠を踏んでいないか説明できる。
 
 ## Step10: DTO設計とAPI/画面の分離 <!-- id: dto-design -->
 - 目的: Entityの直接返却をやめ、リクエスト/レスポンス用のDTOに分離する。
   あわせて、Entity→DTO変換時に起きがちなN+1問題に気づき、対策できるようになる。
 - 概念: リクエストDTO/レスポンスDTO、バリデーションの層分担(構造的検証はDTO、業務的検証はService)、
-  N+1問題(一覧のEntityをDTOに変換する際、`@ManyToOne`等の関連Entityへの遅延ロードが
-  一覧の件数分クエリを発行してしまう現象)、`@EntityGraph`やfetch joinによる対策。
+  N+1問題(**JPAの既定フェッチ種別は`@ManyToOne`/`@OneToOne`がEAGER、`@OneToMany`/
+  `@ManyToMany`がLAZY**。一覧のEntityをDTOに変換する際、既定のままだと`@ManyToOne`側は
+  EAGERで毎回JOINが増え、`@OneToMany`側はLAZYな遅延ロードが一覧の件数分クエリを
+  発行してしまう、というそれぞれ異なる原因でN+1が起きうる)、`@EntityGraph`やfetch join
+  による対策。
 - 前提Step: Step9
 - 完了条件:
   - Controllerの引数・戻り値にEntityが直接現れない。
@@ -337,8 +375,8 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 - 概念: `@Query`によるJPQL、ネイティブクエリ(`nativeQuery = true`)との使い分け、
   JOIN・GROUP BY・集計関数、パラメータのバインド変数指定(`:name`)と
   文字列連結によるSQLインジェクションの危険、`spring.jpa.show-sql`/
-  `hibernate.format_sql`による発行SQLの確認、インデックスと`EXPLAIN`による
-  実行計画の確認。
+  `spring.jpa.properties.hibernate.format_sql`(`hibernate.format_sql`単体では
+  効かない点に注意)による発行SQLの確認、インデックスと`EXPLAIN`による実行計画の確認。
 - 前提Step: Step11(メソッド名規約・Specificationでの検索を経験していること)
 - 完了条件:
   - メソッド名規約では表現できない集計または複数テーブル結合のクエリを、
@@ -359,7 +397,7 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   (`@Lock(LockModeType.PESSIMISTIC_WRITE)`、`SELECT ... FOR UPDATE`)、
   両者の使い分け(競合頻度とロック時間のトレードオフ)、トランザクション
   分離レベルの基本、競合時にユーザーへどう伝えるかの設計。
-- 前提Step: Step9(`@Transactional`の理解)、Step6(エラー表示の仕組みが
+- 前提Step: Step9(`@Transactional`の理解)、Step6(推奨順のみ——エラー表示の仕組みが
   あると競合エラーを画面に出しやすい)
 - 完了条件:
   - 2つのブラウザ(またはタブ)で同じデータの編集画面を開き、両方から
@@ -399,7 +437,7 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   一度に全部メモリに載せずストリーミングで書き出す意識、(任意)Apache POI等を
   使ったExcel(.xlsx)形式での出力。
 - 前提Step: Step11(検索・ページング・ソートで一覧表示ができていること)、
-  Step14(アップロード→ダウンロードの流れとして直前に行うことを推奨)
+  Step14(推奨順のみ——アップロード→ダウンロードの流れとして直前に行うことを推奨)
 - 完了条件:
   - 一覧画面(またはAPI)に「CSVダウンロード」の導線があり、現在の検索条件に
     合致したデータがCSVとしてダウンロードできる。
@@ -409,15 +447,21 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   - (任意)Excel形式(.xlsx)での出力も1つ試している。
 
 ## Step16: テストの導入 <!-- id: testing -->
-- 目的: レイヤーごとの責務に応じたテストを書く。
+- 目的: レイヤーごとの責務に応じた**テストの書き方(パターン)を一通り経験する**。
+  学習目的のため、アプリ全体のテストカバレッジを網羅することは目指さない
+  (実務でのテスト戦略・カバレッジ基準は別途学ぶべき発展的なテーマとする)。
 - 概念: モック/スタブ、`@WebMvcTest`、`@DataJpaTest`。
 - 前提Step: Step9
 - 完了条件:
-  - 分岐・条件判定を含む(if/例外送出/Optionalの分岐等がある)Serviceのpublicメソッドには、
-    そのメソッドが持つ分岐パターン数と同数以上のテストケースがある(例: 正常系1件+
-    NotFoundで例外を投げる異常系1件の分岐があるメソッドには最低2件のテスト)。
-  - 全てのControllerクラスについて、それぞれ最低1つの`@WebMvcTest`クラスがあり、
-    各Controllerにつき正常系1件以上・異常系(不正パラメータや存在しないID等)1件以上を含む。
+  - 分岐・条件判定を含む(if/例外送出/Optionalの分岐等がある)Serviceのpublicメソッドを
+    **最低1つ選び**、そのメソッドが持つ分岐パターン数と同数以上のテストケースを書く
+    (例: 正常系1件+NotFoundで例外を投げる異常系1件の分岐があるメソッドには最低2件の
+    テスト)。全Serviceメソッドを網羅する必要はない。
+  - `@WebMvcTest`を使ったControllerのテストを**最低1つ**書き、正常系1件以上・異常系
+    (不正パラメータや存在しないID等)1件以上を含む。全Controllerを網羅する必要はない。
+  - `@DataJpaTest`(またはRepositoryを対象にしたテスト)を最低1つ試している(任意だが推奨)。
+  - どのテストパターンを選んだか、なぜそれを選んだか(このメソッド/Controllerを選んだ
+    理由)を説明できる。
 
 ## Step17: セッションによる認証の基礎(手作り) <!-- id: session-auth -->
 - 目的: `HttpSession`を使って自前のログイン機能を実装し、認証の基本概念を体で理解する。
@@ -433,7 +477,8 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 ## Step18: REST APIと例外処理の設計 <!-- id: rest-api -->
 - 目的: `@RestController`でJSON APIを作り、業務エラーを適切なHTTPステータスにマッピングする。
 - 概念: `@RestController`、`@ExceptionHandler`/`@ControllerAdvice`。
-- 前提Step: Step10, Step17
+- 前提Step: Step10、Step17(推奨順のみ——セッション認証と対比させると「2種類の入口」
+  という動機付けが伝わりやすい)
 - 完了条件: JSON APIがDTOを返し、異常系(存在しないID指定など)で適切なHTTPステータスが返る。
 - 補足: セッション認証済みのHTML画面と、別途認証が必要なJSON APIという「2種類の入口」が
   併存する状態を作ることが、次のSecurity導入の動機付けになる。
@@ -446,12 +491,14 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   `WebClient`(non-blocking。リアクティブな呼び出しが必要な場面向け)、外部API
   レスポンスのDTOへのマッピング、タイムアウト設定、外部障害時のハンドリング
   (接続エラー・4xx/5xx応答時にアプリ全体を落とさない設計)、外部APIをモック化した
-  テスト(WireMock等、または`@MockBean`でのクライアント差し替え)。
+  テスト(WireMock等、または`@MockitoBean`でのクライアント差し替え——`@MockBean`/
+  `@SpyBean`はSpring Boot 3.4で非推奨・4.0で削除されたため使わない)。
   **`RestTemplate`は現在Spring公式がメンテナンスモード(積極的な新機能追加なし)と
   位置づけている旧世代のAPI**であり、新規学習では`RestClient`を優先する。ただし
   既存プロジェクトでは今も`RestTemplate`が広く使われているため、読んで理解できる
   程度の認識(名前と立ち位置)は持っておくとよい、という位置づけで触れる程度に留める。
-- 前提Step: Step18(自分がAPIを提供する経験があると、呼び出す側の視点との対比が理解しやすい)
+- 前提Step: Step18(推奨順のみ——自分がAPIを提供する経験があると、呼び出す側の視点との
+  対比が理解しやすい)
 - 完了条件:
   - 何らかの公開API(郵便番号検索API、天気API等の無料API)を`RestClient`
     (または`WebClient`)で呼び出し、レスポンスをDTOにマッピングして画面または
@@ -464,25 +511,36 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 ## Step20: Spring Security入門 <!-- id: spring-security-intro -->
 - 目的: Step17で体感した手作り認証の弱点(平文パスワード等)をSpring Securityで解決する。
 - 概念: `SecurityFilterChain`、`UserDetailsService`、BCrypt、CSRF。
-- 前提Step: Step17, Step18
+- 前提Step: Step17、Step18(推奨順のみ——REST APIとSecurityの両方の入口があると
+  CSRF等の理解が深まる)
 - 完了条件: パスワードがハッシュ化されて保存され、Spring Securityのフィルタ経由でログインが機能する。
 
 ## Step21: 認可の作り込みとSecurity統合の仕上げ <!-- id: authorization -->
 - 目的: 画面用/API用など用途別に`SecurityFilterChain`を分割し、ログイン後のユーザー特定を
   `SecurityContextHolder`経由に統一する。
-- 概念: `@PreAuthorize`、ロールベース認可、`@WithMockUser`によるSecurityのテスト。
+- 概念: `@PreAuthorize`(有効化には`@EnableMethodSecurity`が必要——付け忘れると
+  `@PreAuthorize`は例外もエラーも出さず黙って無視されるため、「認可できているつもり」の
+  誤学習に直結する)、ロールベース認可、`@WithMockUser`によるSecurityのテスト。
 - 前提Step: Step20
-- 完了条件: ログイン後のユーザー特定が`SecurityContext`経由になっている。ロールごとのアクセス制御にテストがある。
+- 完了条件: ログイン後のユーザー特定が`SecurityContext`経由になっている。ロールごとの
+  アクセス制御にテストがある。**他人のIDをURL/パラメータに指定した場合に他人のデータへ
+  アクセスできないこと(IDOR: Insecure Direct Object Reference)をテストまたは手動確認で
+  検証している**(ロールが同じでも、所有者が異なるリソースへのアクセスは拒否されるか、
+  という観点)。
 
 ## Step22: ロギング・Interceptor・Filter <!-- id: logging-interceptor-filter -->
 - 目的: Step20〜21で構築したSpring Securityの仕組み(`SecurityFilterChain`)が、
   実はServletコンテナ標準のFilterチェーンの上に成り立っていることを理解する。
   Filterより一段Spring MVC寄りの`HandlerInterceptor`との使い分け、実務で欠かせない
   ロギング設計を身につける。
-- 概念: Servlet Filter(`jakarta.servlet.Filter`、なぜ複数の`SecurityFilterChain`を
-  `@Order`で並べられるか)、`HandlerInterceptor`(リクエスト処理の前後、どのハンドラ
-  メソッドが呼ばれるかにアクセスできる点がFilterとの違い)、SLF4Jによるログレベルの
-  使い分け(DEBUG/INFO/WARN/ERROR)。
+- 概念: Servlet Filter(`jakarta.servlet.Filter`)。**実際にServletコンテナへ登録される
+  Spring Security関連のFilterは`DelegatingFilterProxy`1本のみで、その内部の
+  `FilterChainProxy`が、リクエストURLにマッチする最初の1つの`SecurityFilterChain`だけを
+  選んで実行する**(複数の`SecurityFilterChain`を`@Order`で並べても、並列に全部通る
+  わけではなく「最初にマッチした1本だけが使われる」という点が、認可設定が意図通りに
+  効かない典型的な落とし穴になる)、`HandlerInterceptor`(リクエスト処理の前後、どの
+  ハンドラメソッドが呼ばれるかにアクセスできる点がFilterとの違い)、SLF4Jによるログ
+  レベルの使い分け(DEBUG/INFO/WARN/ERROR)。
 - 前提Step: Step21
 - 完了条件:
   - 独自の`HandlerInterceptor`(または`Filter`)を1つ実装し、リクエストの処理時間や
@@ -499,7 +557,8 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   マイグレーション管理(Flyway/Liquibase)。
   (ログレベルの使い分け自体はStep22で扱い済み。ここではプロファイルごとにログ設定を
   切り替える、という応用に絞る)
-- 前提Step: Step7, Step3, Step22
+- 前提Step: Step7。Step3・Step22は(推奨順のみ)——それぞれデプロイ経験・ログ設計の
+  経験があると理解しやすい
 - 完了条件:
   - 環境ごとに設定(DB接続先・ログレベルを含む)を切り替えて起動できる。
   - `ddl-auto=update`に頼らないスキーマ管理の仕組み(Flyway等)を最低1つのテーブルに
@@ -516,13 +575,14 @@ Step24に進むための前提ではない——経由していなくてもフ�
 ## Step24: JavaScript基礎(DOM操作・イベント・Promise) <!-- id: js-basics -->
 - 目的: jQueryやAjaxに入る前に、素のJavaScriptでDOM操作・イベントハンドリング・非同期処理の基本を理解する。
 - 概念: `document.querySelector`、イベントリスナー、`Promise`、`async`/`await`。
-- 前提Step: Step22(Step23は任意/発展Stepであり前提ではない)
+- 前提Step: Step22(推奨順のみ——バックエンドのロギングとフロントエンドのJSに技術的な
+  依存関係は無い。Step23は任意/発展Stepであり前提ではない)
 - 完了条件: 素のJavaScriptだけで、ボタンクリックに応じて画面の一部を書き換えられる。
 
 ## Step25: CSSレイアウト <!-- id: css-layout -->
 - 目的: 装飾ではなくレイアウト崩れを直せるレベルのCSSを身につける(画面構造の共通化はStep5で対応済み)。
 - 概念: Flexbox/Grid、メディアクエリ(レスポンシブ)。
-- 前提Step: Step24
+- 前提Step: Step24(推奨順のみ——CSSはJSの内容に技術的に依存しない)
 - 完了条件: 主要画面がFlexbox/Gridで崩れずに表示される。
 
 ## Step26: クライアントサイドバリデーション <!-- id: client-validation -->
@@ -579,8 +639,8 @@ Reactへの移行は「実務でSPA構成に触れる機会を前倒しで作り
   慣れる。この時点ではstateもAPI通信も扱わない。
 - 概念: Node.js/npmのセットアップ、Vite等でのReactプロジェクト作成、JSXの構文
   (式の埋め込み、属性名の違い`className`等)、関数コンポーネントの最小形。
-- 前提Step: なし(依存関係マップの`S27 --> S29`は「jQuery経由」の推奨経路であり必須では
-  ない)。DOM操作/イベント処理の基礎がある学習者はStep24〜28を経由せず直接始めてよい。
+- 前提Step: なし(依存関係マップの`S27 -.-> S29`(点線)は「jQuery経由」の推奨経路であり
+  必須ではない)。DOM操作/イベント処理の基礎がある学習者はStep24〜28を経由せず直接始めてよい。
   未経験なら先にStep24〜28を通る方が理解が早い。
 - 完了条件: Reactの開発サーバーが起動し、静的なJSX(state・イベントなし)で簡単な画面
   (例: 自己紹介カード、固定データの一覧表示)を表示できる。
@@ -610,12 +670,17 @@ Reactへの移行は「実務でSPA構成に触れる機会を前倒しで作り
   クリーンアップ関数が必要になる場面があることに触れる(深追いはしない)、
   `.map()`によるリスト描画と`key`propの必要性(なぜindexをそのまま使うと問題が
   起きうるか)、CORS(Viteの開発サーバーとSpringBootが別オリジンになることで起きる
-  問題と、SpringBoot側での許可設定 — `@CrossOrigin`または`WebMvcConfigurer`)。
-- 前提Step: Step31, Step18(REST API。ここで初めて実体的にSpringBoot側の完了が前提になる)
+  問題と、SpringBoot側での許可設定)。**この時点でSpring Securityが有効になっている
+  (Step20〜21が完了済みの)アプリでは、`@CrossOrigin`や`WebMvcConfigurer`だけでは
+  不十分で、プリフライトリクエストがSecurityのフィルタ段階で401になる。
+  `SecurityFilterChain`側で`http.cors(...)`を明示的に有効化する必要がある**。
+- 前提Step: Step31, Step18(REST API。ここで初めて実体的にSpringBoot側の完了が前提になる)、
+  Step20・Step21(Securityが有効な状態でのCORS設定が前提になるため)
 - 完了条件: コンポーネントのマウント時にSpringBootのREST APIを呼び出し、取得した
   データを`.map()`で一覧表示できる(`key`propが適切に設定されている)。ローディング中・
   取得失敗時の表示がある。開発サーバーとSpringBootが別オリジンの状態でCORSエラーに
-  直面し、許可設定によって解消した経験がある。
+  直面し、`SecurityFilterChain`での`http.cors(...)`有効化を含む許可設定によって
+  解消した経験がある。
 
 ## Step33: 既存画面のReact化(統合・任意/発展) <!-- id: react-integration -->
 - 目的: Step29〜32で身につけた要素(JSX、コンポーネント分割、state、データ取得)を
@@ -649,7 +714,11 @@ Reactへの移行は「実務でSPA構成に触れる機会を前倒しで作り
   `useNavigate`によるクライアントサイド遷移、URLパラメータ(例: `/items/:id`)の
   受け渡し、ブラウザの戻る/進むボタンとの整合、Reactが管理する範囲と既存の
   Thymeleaf画面が管理する範囲の切り分け(Thymeleaf側への遷移は通常の`<a>`タグの
-  ままでよい)。
+  ままでよい)。**SPAのディープリンク問題**(`/items/1`のようなReact Router管理下の
+  URLを直接開く・リロードすると、サーバー側にそのパスの実体が無いため404になる。
+  開発サーバー(Vite)はこの問題を自動的に吸収してくれるため、この時点ではまだ
+  気づきにくいが、Step36(本番ビルド統合)でjar配信に切り替えた際に必ず踏む
+  ——詳細な対応はStep36で扱う)。
 - 前提Step: Step33
 - 完了条件: React側で2つ以上の画面(どの2画面にするかは学習者が作っているアプリの
   内容に応じて選んでよい。例: 一覧⇄詳細、検索結果⇄編集画面等)が、React Routerに
@@ -664,8 +733,9 @@ Reactへの移行は「実務でSPA構成に触れる機会を前倒しで作り
   保護下で実現し、Step28で学んだAjax+CSRFの知識をReact側でも再現する。
 - 概念: POST/PUTリクエストの送信、CSRFトークンの取得・送信(Step28と同様の方式をReact側に
   適用)、送信後の再取得と画面表示の更新。
-- 前提Step: Step34, Step28(Ajax+CSRFの知識。Step28自体を経由していない学習者は、
-  この時点でCSRFトークンの扱いを新たに学ぶことになる旨を伝える)
+- 前提Step: Step34、Step28(推奨順のみ——Ajax+CSRFの知識があると理解が早い。
+  Step28自体を経由していない学習者は、この時点でCSRFトークンの扱いを新たに
+  学ぶことになる旨を伝える)
 - 完了条件: Reactの画面からフォーム送信ができ、CSRF保護が有効なままリクエストが
   成功する。送信後、画面の表示内容が更新された結果を反映する。
 
@@ -675,11 +745,18 @@ Reactへの移行は「実務でSPA構成に触れる機会を前倒しで作り
   フロントエンドを含めた完成形を体験する。
 - 概念: `npm run build`の成果物配置(`src/main/resources/static`配下等)、Viteのbase
   path設定、SpringBootの静的リソース配信の仕組み、開発時(別オリジン+CORS許可)と
-  本番時(同一オリジン、CORS設定不要)の違い。
+  本番時(同一オリジン、CORS設定不要)の違い、**Step34で触れたSPAのディープリンク
+  問題への対応**(React Router管理下のパスへの直接アクセス・リロードでも404になら
+  ないよう、該当パスへのリクエストを`index.html`にフォールバックさせる設定
+  ——例: `WebMvcConfigurer`で静的リソースにもAPIにもマッチしないパスを`index.html`に
+  転送する)。
 - 前提Step: Step35, Step3(jarでの単独起動体験)
 - 完了条件: `mvnw package`で作られたjarを起動すると、React側で実装した画面がSpringBoot
   経由(別途Node.jsサーバーを起動せず)で表示・操作できる。本番相当の起動では、
   Step32で対処したCORS設定が不要になる(同一オリジンになるため)理由を説明できる。
+  **React Router管理下のURL(例: `/items/1`)を直接ブラウザに入力する、またはその
+  画面でリロードしても404にならず正しく表示される**(Step34で作ったルーティングの
+  ディープリンクが本番配信でも機能することを確認する)。
 
 ## 発展メニュー(任意、順不同) <!-- id: advanced-menu -->
 
