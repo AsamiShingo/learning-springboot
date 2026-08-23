@@ -1,4 +1,4 @@
-<!-- template-version: 2026-08-22.18 -->
+<!-- template-version: 2026-08-22.19 -->
 
 # SpringBoot Web開発 学習カリキュラム(汎用テンプレート)
 
@@ -34,26 +34,26 @@ Step0(前提確認)/ Step1(環境構築)/ アプリの題材決め/ Step2(最小
 Step4(画面遷移・フォーム)/ Step5(画面共通化)/ Step6(バリデーションエラー)/
 Step7(DB接続)/ Step8(グローバルエラーページ)/ Step9(レイヤード)/
 Step10(DTO分離)/ Step11(検索・ページング・ソート)/ Step12(SQL実践)/
-Step13(排他制御)/ Step14(ファイル出力)/
-Step15(テスト)/ Step16(セッション認証)/ Step17(REST API)/ Step18(外部API連携)/
-Step19(Security入門)/ Step20(認可仕上げ)/ Step21(ロギング・Interceptor・Filter)/
-Step22(運用仕上げ・任意)/ Step23(JS基礎)/ Step24(CSSレイアウト)/
-Step25(クライアントバリデーション)/ Step26(jQuery)/ Step27(Ajax+CSRF)/
-Step28(React基礎・任意)/ Step29(コンポーネント/props・任意)/ Step30(State/イベント・任意)/
-Step31(データ取得/CORS・任意)/ Step32(React統合・任意)/ Step33(React Router・任意)/
-Step34(フォーム/CSRF・任意)/ Step35(本番ビルド統合・任意)/ 発展メニュー
+Step13(排他制御)/ Step14(ファイルアップロード)/ Step15(ファイル出力)/
+Step16(テスト)/ Step17(セッション認証)/ Step18(REST API)/ Step19(外部API連携)/
+Step20(Security入門)/ Step21(認可仕上げ)/ Step22(ロギング・Interceptor・Filter)/
+Step23(運用仕上げ・任意)/ Step24(JS基礎)/ Step25(CSSレイアウト)/
+Step26(クライアントバリデーション)/ Step27(jQuery)/ Step28(Ajax+CSRF)/
+Step29(React基礎・任意)/ Step30(コンポーネント/props・任意)/ Step31(State/イベント・任意)/
+Step32(データ取得/CORS・任意)/ Step33(React統合・任意)/ Step34(React Router・任意)/
+Step35(フォーム/CSRF・任意)/ Step36(本番ビルド統合・任意)/ 発展メニュー
 
-Step番号は目次上の並び順(=学習順)と一致している。Step22(運用仕上げ)・
-Step28〜35(React編)は、番号上は他のStepと連続しているが、任意/発展Stepであり
+Step番号は目次上の並び順(=学習順)と一致している。Step23(運用仕上げ)・
+Step29〜36(React編)は、番号上は他のStepと連続しているが、任意/発展Stepであり
 修了の必須条件には含めない。
 
 ## 修了基準
 
-このカリキュラムにおける「修了」は、**Step0〜Step27の全カリキュラムが完了していること**
+このカリキュラムにおける「修了」は、**Step0〜Step28の全カリキュラムが完了していること**
 (Step0チェックリストは16項目すべて`未実証`以外の状態になっている——実証条件が
-(a)(b)(c)に分かれている項目は、全ての条件について判断が済んでいることが条件、Step1〜27のうち
-Step22(運用仕上げ・任意)を除く全てが「完了」)を基本ラインとする。Step22・
-Step28〜35(React編)・発展メニューは、いずれも任意/発展Stepであり修了の必須条件には
+(a)(b)(c)に分かれている項目は、全ての条件について判断が済んでいることが条件、Step1〜28のうち
+Step23(運用仕上げ・任意)を除く全てが「完了」)を基本ラインとする。Step23・
+Step29〜36(React編)・発展メニューは、いずれも任意/発展Stepであり修了の必須条件には
 含めない。
 
 修了の判定は、`.claude/state/learning-springboot/PROGRESS.md`の記録を鵜呑みにせず、
@@ -81,41 +81,42 @@ graph LR
   S11 --> S12[Step12 SQL実践]
   S9 --> S13[Step13 排他制御]
   S6 --> S13
-  S11 --> S14[Step14 ファイル出力]
-  S9 --> S15[Step15 テスト]
-  S9 --> S16[Step16 セッション認証]
-  S10 --> S17[Step17 REST API]
-  S16 --> S17
-  S17 --> S18[Step18 外部API連携]
-  S16 --> S19[Step19 Security入門]
-  S17 --> S19
-  S19 --> S20[Step20 認可仕上げ]
-  S20 --> S21[Step21 ロギング/Interceptor/Filter]
-  S7 --> S22[Step22 運用仕上げ]
-  S3 --> S22
-  S21 --> S22
-  S21 --> S23[Step23 JS基礎]
-  S23 --> S24[Step24 CSSレイアウト]
-  S23 --> S25[Step25 クライアントバリデーション]
-  S23 --> S26[Step26 jQuery]
-  S17 --> S27[Step27 Ajax+CSRF]
-  S19 --> S27
-  S26 --> S27
-  S26 --> S28[Step28 React基礎]
-  S28 --> S29[Step29 コンポーネント/props]
-  S29 --> S30[Step30 State/イベント]
-  S30 --> S31[Step31 データ取得/CORS]
-  S17 --> S31
-  S31 --> S32[Step32 React統合]
-  S32 --> S33[Step33 React Router]
-  S33 --> S34[Step34 フォーム/CSRF]
-  S27 --> S34
-  S34 --> S35[Step35 本番ビルド統合]
-  S3 --> S35
+  S7 --> S14[Step14 ファイルアップロード]
+  S11 --> S15[Step15 ファイル出力]
+  S14 --> S15
+  S9 --> S16[Step16 テスト]
+  S9 --> S17[Step17 セッション認証]
+  S10 --> S18[Step18 REST API]
+  S17 --> S18
+  S18 --> S19[Step19 外部API連携]
+  S17 --> S20[Step20 Security入門]
+  S18 --> S20
+  S20 --> S21[Step21 認可仕上げ]
+  S21 --> S22[Step22 ロギング/Interceptor/Filter]
+  S7 --> S23[Step23 運用仕上げ]
+  S3 --> S23
+  S22 --> S23
+  S22 --> S24[Step24 JS基礎]
+  S24 --> S25[Step25 CSSレイアウト]
+  S24 --> S26[Step26 クライアントバリデーション]
+  S24 --> S27[Step27 jQuery]
+  S18 --> S28[Step28 Ajax+CSRF]
+  S20 --> S28
+  S27 --> S28
+  S27 --> S29[Step29 React基礎]
+  S29 --> S30[Step30 コンポーネント/props]
+  S30 --> S31[Step31 State/イベント]
+  S31 --> S32[Step32 データ取得/CORS]
+  S18 --> S32
+  S32 --> S33[Step33 React統合]
+  S33 --> S34[Step34 React Router]
+  S34 --> S35[Step35 フォーム/CSRF]
+  S28 --> S35
+  S35 --> S36[Step36 本番ビルド統合]
+  S3 --> S36
 
   subgraph 任意発展["任意/発展"]
-    S22
-    S28
+    S23
     S29
     S30
     S31
@@ -123,10 +124,11 @@ graph LR
     S33
     S34
     S35
+    S36
   end
 
   classDef optional fill:#fff3cd,stroke:#d39e00,stroke-width:2px,stroke-dasharray: 5 5,color:#000;
-  class S22,S28,S29,S30,S31,S32,S33,S34,S35 optional;
+  class S23,S29,S30,S31,S32,S33,S34,S35,S36 optional;
 ```
 
 (黄色の破線枠のノードは「任意/発展」Stepを示す。必須Stepの完了はこれらに依存しない。)
@@ -150,14 +152,14 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 | class-design | 3 | クラス設計・コンストラクタ設計 | Entity/DTOが、責務の合った単位で設計され、不要なsetterを持たない | Step10(DTO設計) |
 | record-immutable | 4 | record(不変データクラス) | DTOやちょっとした値オブジェクトを`record`で表現している、または「なぜここは`record`にしなかったか」を説明できる | Step10(DTO設計) |
 | interface-abstraction | 5 | interfaceによる抽象化 | `JpaRepository`の継承に加え、Serviceそのものをinterface+実装クラスに分けている、または差し替え可能な設計がある | Step9(レイヤードアーキテクチャ) |
-| enum-type-safety | 6 | enum(状態・種別の型安全な表現) | ロールや種別のような固定値を、生の文字列比較ではなく`enum`で表現している | 貸出状態のような「種別・ステータス」はStep9(レイヤードアーキテクチャ)時点でも実装され得るため、その段階で機会があれば促す。ただし「ロール」の実例(例: `"ADMIN".equals(user.getRole())`)はUserエンティティ・ロール概念が実際に登場するStep16(セッション認証)〜Step19/20(Security・認可)が自然な実証機会であり、Step9時点でロールがまだ存在しない学習者に無理に促さない。題材決めで役割が2種類以上あることを確認しているため、遅くともStep16〜20では原則`enum`での実装を促す。役割・種別に相当する概念が題材に無いまま進めている場合に限り「会話で確認済み」でよい |
-| exception-handling | 7 | 例外処理の使い分け(try-catch-finally、try-with-resources/AutoCloseable、独自例外) | (a)try-catch-finallyの基本構文を説明・使用できる。(b)独自例外クラス(例: `〇〇NotFoundException`)を定義し、適切な層でスローしている。(c)ファイルI/O等リソースを扱うコードがあれば、try-with-resourcesで自動クローズしている | Step17(REST API/例外処理)。(b)はStep13(`OptimisticLockingFailureException`の業務エラー変換)も実証機会。(c)はStep14(ファイル出力)が必ず来る実証機会——Step14は必須Stepのため(c)に「対象外」は原則選ばない。Step14着手前は「会話で確認済み」に留めてよい |
+| enum-type-safety | 6 | enum(状態・種別の型安全な表現) | ロールや種別のような固定値を、生の文字列比較ではなく`enum`で表現している | 貸出状態のような「種別・ステータス」はStep9(レイヤードアーキテクチャ)時点でも実装され得るため、その段階で機会があれば促す。ただし「ロール」の実例(例: `"ADMIN".equals(user.getRole())`)はUserエンティティ・ロール概念が実際に登場するStep17(セッション認証)〜Step20/21(Security・認可)が自然な実証機会であり、Step9時点でロールがまだ存在しない学習者に無理に促さない。題材決めで役割が2種類以上あることを確認しているため、遅くともStep17〜21では原則`enum`での実装を促す。役割・種別に相当する概念が題材に無いまま進めている場合に限り「会話で確認済み」でよい |
+| exception-handling | 7 | 例外処理の使い分け(try-catch-finally、try-with-resources/AutoCloseable、独自例外) | (a)try-catch-finallyの基本構文を説明・使用できる。(b)独自例外クラス(例: `〇〇NotFoundException`)を定義し、適切な層でスローしている。(c)ファイルI/O等リソースを扱うコードがあれば、try-with-resourcesで自動クローズしている | Step18(REST API/例外処理)。(b)はStep13(`OptimisticLockingFailureException`の業務エラー変換)も実証機会。(c)はStep15(ファイル出力)が必ず来る実証機会——Step15は必須Stepのため(c)に「対象外」は原則選ばない。Step15着手前は「会話で確認済み」に留めてよい |
 | collection-ops | 8 | Collection操作 | `List`/`Map`/`Set`に対する重複除去・ソート・集計等の操作がある | Step2〜Step4(最小アプリ/フォーム)。Step12(SQL実践)でJPQLの集計クエリ結果(件数・合計等)をJavaのCollectionで受け取り加工する場面も実証機会になる |
 | generics | 9 | ジェネリクス | `JpaRepository<Xxx, Long>`のような型パラメータ付きの宣言を読み書きできる | 実際にはStep7(DB接続)でRepositoryを書いた時点で満たされることが多い。Step7完了時点のレビューで先に確認し、そこで満たされていなければStep9(レイヤードアーキテクチャ)で改めて確認する |
 | stream-api | 10 | Stream API | `.stream().filter().map()`等を使ったコレクション処理・変換がある | Step10(Entity→DTO変換)。Step12(SQL実践)で集計クエリの結果セットを`.stream()`で加工する場面も実証機会になる |
 | optional | 11 | Optional | `Repository`の検索結果を`Optional`のまま扱い、`orElseThrow`等で例外に変換している | Step9(Service層) |
 | equals-hashcode | 12 | equals/hashCodeの契約 | Entity(特に複合主キー相当のクラス)やDTOで`equals`/`hashCode`を意図して定義・確認している(recordなら自動生成される点との対比も含む)。**JPA Entityについては、`@GeneratedValue`で自動採番されるIDを素朴に`hashCode`へ含めると、永続化前(id未確定)と永続化後でhashCode値が変わり`HashSet`等で不整合を起こす**という落とし穴があることも説明できる(対策の一例: ビジネスキーを使う、`getClass()`ベースの比較にする、`Set`に入れる運用を避ける等) | Step7(DB接続/Entity設計)。題材に複合主キー相当のクラスが無い場合は、単一IDのEntityで`equals`/`hashCode`をどう定義すべきかを口頭で説明できれば「会話で確認済み」でよい |
-| lambda-functional-interface | 13 | ラムダ式/関数型インターフェース | `Comparator`やStream内のラムダ、テストの`when(...).thenReturn(...)`のような関数型の記法を使っている | Step10〜Step15 |
+| lambda-functional-interface | 13 | ラムダ式/関数型インターフェース | `Comparator`やStream内のラムダ、テストの`when(...).thenReturn(...)`のような関数型の記法を使っている | Step10〜Step16 |
 | inheritance-polymorphism | 14 | 継承・ポリモーフィズム・抽象クラス | 共通処理を親クラス/抽象クラスに切り出している、または同じinterface/親クラスに対して異なる実装を差し替えて使う設計がある | Step9(レイヤードアーキテクチャ)。この規模のアプリでは継承階層が自然には出てこないことも多いため、無ければ「どこで使うと有効そうか」「なぜここでは使わなかったか」を口頭で説明できるかの確認(「会話で確認済み」ステータス)でよい。今後も出てくる見込みが無いと判断した場合は「対象外」でもよい |
 | wrapper-boxing | 15 | ラッパークラス・オートボクシング | `Integer`/`Long`/`Boolean`等のラッパー型を、プリミティブ型ではなく意図して使っている(nullを許容したい場面でラッパー型を選ぶ理由を説明できる) | Step7(DB接続/Entity設計)。Entityの`Long id`、`Boolean isDeleted`等が実例になる |
 | access-modifiers | 16 | アクセス修飾子・パッケージ設計 | クラス/メソッド/フィールドの`public`/`private`/パッケージプライベートを意図して使い分けている(全て`public`にしていない) | Step9(レイヤードアーキテクチャ) |
@@ -205,12 +207,12 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   「貸出記録」等)。Step10のN+1体験、Step9のレイヤー分けに必要。
 - 一覧に検索・並び替えの対象になる属性が複数ある(例: タイトル、カテゴリ、登録日)。
   Step11(検索・ページング・ソート)に必要。
-- 利用者に2種類以上の役割が想定できる(例: 一般利用者/管理者)。Step16の認証、
-  Step20の認可の作り込みに必要。
+- 利用者に2種類以上の役割が想定できる(例: 一般利用者/管理者)。Step17の認証、
+  Step21の認可の作り込みに必要。
 
 満たさない題材でも却下はしない。「この題材だとStep10で扱うN+1が体験できないので、
 ◯◯という関連データを足しませんか」のように、具体的に補強を提案する形にする。
-学習者が今は詳細を詰めたくない場合、後のStep(Step9・Step10・Step16等)に着手する
+学習者が今は詳細を詰めたくない場合、後のStep(Step9・Step10・Step17等)に着手する
 段階で改めて拡張を相談してもよい。
 
 決まった題材は`.claude/state/learning-springboot/CURRICULUM.md`の冒頭に一言
@@ -367,16 +369,37 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   - 楽観ロックと悲観ロックのどちらを選ぶべきかを、自分のアプリの具体的な
     機能を例に挙げて説明できる。
 
-## Step14: ファイル出力の実務パターン(CSV/Excelエクスポート) <!-- id: file-export -->
-- 目的: 一覧データを画面に表示するだけでなく、業務でよく求められる「ファイルとして
-  出力する」機能を実装する。単純な文字列連結ではなく、実務で踏みがちな落とし穴
+## Step14: ファイルアップロード(MultipartFile) <!-- id: file-upload -->
+- 目的: Webアプリでのファイル受け取りの基本(`MultipartFile`)を学ぶ。次のStep15
+  (ファイルダウンロード)とペアで「アップロードしたものをダウンロードできる」という
+  一連の流れを体験できるよう、あえてこの直前に置く。
+- 概念: `MultipartFile`、フォームの`enctype="multipart/form-data"`、ファイルサイズ・
+  拡張子・MIMEタイプの簡単なバリデーション、保存先の選択(ローカルファイルシステムに
+  保存してパスをDBに記録する/ファイル本体をDBにバイナリ保存する、の2方式とその
+  トレードオフ)、ファイル名の衝突回避(UUID採番等)。
+- 前提Step: Step7(DB接続。アップロードしたファイルのメタデータ(元のファイル名・
+  保存パス・サイズ等)をDBに記録するため)
+- 完了条件:
+  - `enctype="multipart/form-data"`のフォームから画像やCSV等のファイルをアップロード
+    できる。
+  - アップロードされたファイルがサーバー側に保存され、そのメタデータがDBに記録
+    されている(保存先としてファイルシステム/DBのどちらを選んだか、その理由を
+    説明できる)。
+  - ファイルサイズやMIMEタイプ等の簡単なバリデーションがあり、不正なアップロードを
+    弾ける。
+
+## Step15: ファイル出力の実務パターン(CSV/Excelエクスポート) <!-- id: file-export -->
+- 目的: Step14でアップロードしたファイルの一覧を、今度はダウンロードできるようにする。
+  アップロード→ダウンロードという一連の流れを通して、業務でよく求められる「ファイルを
+  やり取りする」機能を一通り実装する。単純な文字列連結ではなく、実務で踏みがちな落とし穴
   (文字コード、ダウンロード時のヘッダー、大量データ時のメモリ使用量)に気づく。
 - 概念: `HttpServletResponse`への直接書き込みによるダウンロードレスポンス、
   `Content-Disposition`ヘッダーでのファイル名指定、CSVの文字コード問題
   (UTF-8 BOM付き/Shift_JISのどちらでExcelが正しく開けるか)、大量データを
   一度に全部メモリに載せずストリーミングで書き出す意識、(任意)Apache POI等を
   使ったExcel(.xlsx)形式での出力。
-- 前提Step: Step11(検索・ページング・ソートで一覧表示ができていること)
+- 前提Step: Step11(検索・ページング・ソートで一覧表示ができていること)、
+  Step14(アップロード→ダウンロードの流れとして直前に行うことを推奨)
 - 完了条件:
   - 一覧画面(またはAPI)に「CSVダウンロード」の導線があり、現在の検索条件に
     合致したデータがCSVとしてダウンロードできる。
@@ -385,7 +408,7 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   - なぜその文字コード・出力方式を選んだかを説明できる。
   - (任意)Excel形式(.xlsx)での出力も1つ試している。
 
-## Step15: テストの導入 <!-- id: testing -->
+## Step16: テストの導入 <!-- id: testing -->
 - 目的: レイヤーごとの責務に応じたテストを書く。
 - 概念: モック/スタブ、`@WebMvcTest`、`@DataJpaTest`。
 - 前提Step: Step9
@@ -396,26 +419,26 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   - 全てのControllerクラスについて、それぞれ最低1つの`@WebMvcTest`クラスがあり、
     各Controllerにつき正常系1件以上・異常系(不正パラメータや存在しないID等)1件以上を含む。
 
-## Step16: セッションによる認証の基礎(手作り) <!-- id: session-auth -->
+## Step17: セッションによる認証の基礎(手作り) <!-- id: session-auth -->
 - 目的: `HttpSession`を使って自前のログイン機能を実装し、認証の基本概念を体で理解する。
 - 概念: セッションスコープ、Cookie、平文パスワード保存の危険性。
 - 前提Step: Step9(レイヤーが確立していること)
 - 完了条件: ログイン/ログアウトができ、未ログイン時は保護されたページにアクセスできない。
   **この段階ではパスワードは平文保存のままでよい(意図的にハッシュ化しない)**——
-  Step19でSpring Securityにより弱点を解決する、という動機付けのストーリーを成立させる
-  ため。学習者が自発的にハッシュ化を実装した場合は、その意欲を否定せず、Step19では
+  Step20でSpring Securityにより弱点を解決する、という動機付けのストーリーを成立させる
+  ため。学習者が自発的にハッシュ化を実装した場合は、その意欲を否定せず、Step20では
   「今度はSpring Securityの標準的な仕組み(BCrypt等)に置き換える」という形で
   引き継ぐ。
 
-## Step17: REST APIと例外処理の設計 <!-- id: rest-api -->
+## Step18: REST APIと例外処理の設計 <!-- id: rest-api -->
 - 目的: `@RestController`でJSON APIを作り、業務エラーを適切なHTTPステータスにマッピングする。
 - 概念: `@RestController`、`@ExceptionHandler`/`@ControllerAdvice`。
-- 前提Step: Step10, Step16
+- 前提Step: Step10, Step17
 - 完了条件: JSON APIがDTOを返し、異常系(存在しないID指定など)で適切なHTTPステータスが返る。
 - 補足: セッション認証済みのHTML画面と、別途認証が必要なJSON APIという「2種類の入口」が
   併存する状態を作ることが、次のSecurity導入の動機付けになる。
 
-## Step18: 外部API連携(他システムのAPI呼び出し) <!-- id: external-api -->
+## Step19: 外部API連携(他システムのAPI呼び出し) <!-- id: external-api -->
 - 目的: これまでは「自分がAPIを提供する側」だけを学んできたが、実務では「他システムの
   APIを呼び出す側」になることも同じくらい多い。外部API呼び出しと、それに伴う障害への
   向き合い方を学ぶ。
@@ -428,7 +451,7 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   位置づけている旧世代のAPI**であり、新規学習では`RestClient`を優先する。ただし
   既存プロジェクトでは今も`RestTemplate`が広く使われているため、読んで理解できる
   程度の認識(名前と立ち位置)は持っておくとよい、という位置づけで触れる程度に留める。
-- 前提Step: Step17(自分がAPIを提供する経験があると、呼び出す側の視点との対比が理解しやすい)
+- 前提Step: Step18(自分がAPIを提供する経験があると、呼び出す側の視点との対比が理解しやすい)
 - 完了条件:
   - 何らかの公開API(郵便番号検索API、天気API等の無料API)を`RestClient`
     (または`WebClient`)で呼び出し、レスポンスをDTOにマッピングして画面または
@@ -438,21 +461,21 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   - 外部API呼び出しを含む処理のテストが、実際の外部APIに依存せず書けている
     (モックによる差し替え)。
 
-## Step19: Spring Security入門 <!-- id: spring-security-intro -->
-- 目的: Step16で体感した手作り認証の弱点(平文パスワード等)をSpring Securityで解決する。
+## Step20: Spring Security入門 <!-- id: spring-security-intro -->
+- 目的: Step17で体感した手作り認証の弱点(平文パスワード等)をSpring Securityで解決する。
 - 概念: `SecurityFilterChain`、`UserDetailsService`、BCrypt、CSRF。
-- 前提Step: Step16, Step17
+- 前提Step: Step17, Step18
 - 完了条件: パスワードがハッシュ化されて保存され、Spring Securityのフィルタ経由でログインが機能する。
 
-## Step20: 認可の作り込みとSecurity統合の仕上げ <!-- id: authorization -->
+## Step21: 認可の作り込みとSecurity統合の仕上げ <!-- id: authorization -->
 - 目的: 画面用/API用など用途別に`SecurityFilterChain`を分割し、ログイン後のユーザー特定を
   `SecurityContextHolder`経由に統一する。
 - 概念: `@PreAuthorize`、ロールベース認可、`@WithMockUser`によるSecurityのテスト。
-- 前提Step: Step19
+- 前提Step: Step20
 - 完了条件: ログイン後のユーザー特定が`SecurityContext`経由になっている。ロールごとのアクセス制御にテストがある。
 
-## Step21: ロギング・Interceptor・Filter <!-- id: logging-interceptor-filter -->
-- 目的: Step19〜20で構築したSpring Securityの仕組み(`SecurityFilterChain`)が、
+## Step22: ロギング・Interceptor・Filter <!-- id: logging-interceptor-filter -->
+- 目的: Step20〜21で構築したSpring Securityの仕組み(`SecurityFilterChain`)が、
   実はServletコンテナ標準のFilterチェーンの上に成り立っていることを理解する。
   Filterより一段Spring MVC寄りの`HandlerInterceptor`との使い分け、実務で欠かせない
   ロギング設計を身につける。
@@ -460,7 +483,7 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   `@Order`で並べられるか)、`HandlerInterceptor`(リクエスト処理の前後、どのハンドラ
   メソッドが呼ばれるかにアクセスできる点がFilterとの違い)、SLF4Jによるログレベルの
   使い分け(DEBUG/INFO/WARN/ERROR)。
-- 前提Step: Step20
+- 前提Step: Step21
 - 完了条件:
   - 独自の`HandlerInterceptor`(または`Filter`)を1つ実装し、リクエストの処理時間や
     呼び出されたURLをログに出力できる。
@@ -468,47 +491,47 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
     自分の言葉で説明できる。
   - ログレベルを使い分けて出力し、本番相当ではINFO以上のみ出すような設定ができる。
 
-## Step22: 運用を意識した仕上げ(任意/発展) <!-- id: ops-readiness -->
+## Step23: 運用を意識した仕上げ(任意/発展) <!-- id: ops-readiness -->
 - 目的: 開発時の手軽さ(H2、`ddl-auto=update`)から一歩進めて、より実務に近い運用面を扱う。
 - 概念: `application-{profile}.properties`によるプロファイル分け、PostgreSQLへの切り替え
   (Step7でPostgreSQLを既に選んでいる場合はこの部分は不要——代わりに本番相当の接続設定を
   プロファイルごとに分ける点に絞ってよい)、Spring Boot Actuator、DBスキーマの
   マイグレーション管理(Flyway/Liquibase)。
-  (ログレベルの使い分け自体はStep21で扱い済み。ここではプロファイルごとにログ設定を
+  (ログレベルの使い分け自体はStep22で扱い済み。ここではプロファイルごとにログ設定を
   切り替える、という応用に絞る)
-- 前提Step: Step7, Step3, Step21
+- 前提Step: Step7, Step3, Step22
 - 完了条件:
   - 環境ごとに設定(DB接続先・ログレベルを含む)を切り替えて起動できる。
   - `ddl-auto=update`に頼らないスキーマ管理の仕組み(Flyway等)を最低1つのテーブルに
     対して試せている、またはその必要性(意図しないスキーマ変更のリスク等)を説明できる。
 
-## フロントエンド編(Step23〜27、バックエンド完了後) <!-- id: frontend-section-intro -->
+## フロントエンド編(Step24〜28、バックエンド完了後) <!-- id: frontend-section-intro -->
 
-Step0〜21(バックエンドの必須Step)の間は、Step5の画面共通化を除いて最低限のThymeleaf
+Step0〜22(バックエンドの必須Step)の間は、Step5の画面共通化を除いて最低限のThymeleaf
 (CSS装飾無し、素のHTML相当)で進め、フロントエンドはバックエンドが一通り完了してから
-本格的に着手する。理由は、Ajax通信やCSRFトークン連携がバックエンドのREST API(Step17)・
-Security(Step19/20)の理解を前提とするため。Step22(運用仕上げ)は任意/発展Stepであり、
-Step23に進むための前提ではない——経由していなくてもフロントエンド編に進んでよい。
+本格的に着手する。理由は、Ajax通信やCSRFトークン連携がバックエンドのREST API(Step18)・
+Security(Step20/21)の理解を前提とするため。Step23(運用仕上げ)は任意/発展Stepであり、
+Step24に進むための前提ではない——経由していなくてもフロントエンド編に進んでよい。
 
-## Step23: JavaScript基礎(DOM操作・イベント・Promise) <!-- id: js-basics -->
+## Step24: JavaScript基礎(DOM操作・イベント・Promise) <!-- id: js-basics -->
 - 目的: jQueryやAjaxに入る前に、素のJavaScriptでDOM操作・イベントハンドリング・非同期処理の基本を理解する。
 - 概念: `document.querySelector`、イベントリスナー、`Promise`、`async`/`await`。
-- 前提Step: Step21(Step22は任意/発展Stepであり前提ではない)
+- 前提Step: Step22(Step23は任意/発展Stepであり前提ではない)
 - 完了条件: 素のJavaScriptだけで、ボタンクリックに応じて画面の一部を書き換えられる。
 
-## Step24: CSSレイアウト <!-- id: css-layout -->
+## Step25: CSSレイアウト <!-- id: css-layout -->
 - 目的: 装飾ではなくレイアウト崩れを直せるレベルのCSSを身につける(画面構造の共通化はStep5で対応済み)。
 - 概念: Flexbox/Grid、メディアクエリ(レスポンシブ)。
-- 前提Step: Step23
+- 前提Step: Step24
 - 完了条件: 主要画面がFlexbox/Gridで崩れずに表示される。
 
-## Step25: クライアントサイドバリデーション <!-- id: client-validation -->
+## Step26: クライアントサイドバリデーション <!-- id: client-validation -->
 - 目的: Step6のサーバーサイドバリデーションと対比しながら、即時フィードバック用のクライアント側チェックを実装する。
 - 概念: HTML5バリデーション属性(`required`等)、JavaScriptによる入力チェック、サーバー側検証との役割分担。
-- 前提Step: Step23
+- 前提Step: Step24
 - 完了条件: 明らかな入力ミス(未入力・形式違反)は送信前にクライアント側で気づける。最終チェックはサーバー側(Step6)に残っている。
 
-## Step26: jQuery入門 <!-- id: jquery-basics -->
+## Step27: jQuery入門 <!-- id: jquery-basics -->
 - 目的: 素のJavaScriptで書いていたDOM操作・イベント処理をjQueryで書き直し、
   何が簡潔になるかを比較する。基礎的なDOM操作を一通りjQueryで行えるようになる
   (深追いはしない)。
@@ -516,71 +539,71 @@ Step23に進むための前提ではない——経由していなくてもフ�
   クラス・スタイル操作(`.addClass()`/`.removeClass()`/`.toggleClass()`/`.css()`)、
   `.on()`によるイベントバインド、要素の生成・追加・削除、表示/非表示の切り替え
   (`.show()`/`.hide()`)、要素の走査(`.find()`/`.each()`)。
-- 前提Step: Step23
-- 完了条件: Step23で書いたDOM操作の一部をjQueryで書き換え、コード量・書き方の
+- 前提Step: Step24
+- 完了条件: Step24で書いたDOM操作の一部をjQueryで書き換え、コード量・書き方の
   違いを説明できる。上記の概念それぞれについて、自分のコードの中で最低一度は
   使った経験がある。
 - 補足: 動的に追加した要素にもイベントを効かせる「イベント委譲」
   (`.on('click', 'セレクタ', handler)`)は実務でよく使われるが、ここでは
   深追いせず「そういう書き方がある」と知っておく程度で十分。
 
-## Step27: Ajax通信とCSRF連携 <!-- id: ajax-csrf -->
+## Step28: Ajax通信とCSRF連携 <!-- id: ajax-csrf -->
 - 目的: 画面遷移を伴わずにサーバーとJSONをやり取りする。Spring SecurityのCSRF保護下でPOSTリクエストを送る。
 - 概念: `$.ajax`/`fetch`、JSONのシリアライズ/デシリアライズ、CSRFトークンをヘッダー/パラメータに埋め込む方法、ブラウザ開発者ツール(Networkタブ)でのデバッグ。
-- 前提Step: Step17(REST API)、Step19(Security/CSRF)、Step26
-- 完了条件: 画面遷移無しでStep17のREST APIにPOSTでき、CSRF保護が有効なままリクエストが成功する。ブラウザの開発者ツールでリクエスト/レスポンスを確認できる。
+- 前提Step: Step18(REST API)、Step20(Security/CSRF)、Step27
+- 完了条件: 画面遷移無しでStep18のREST APIにPOSTでき、CSRF保護が有効なままリクエストが成功する。ブラウザの開発者ツールでリクエスト/レスポンスを確認できる。
 
-## React編(Step28〜35、任意/発展。jQuery完了後、または相当の知識がある場合は直接) <!-- id: react-section-intro -->
+## React編(Step29〜36、任意/発展。jQuery完了後、または相当の知識がある場合は直接) <!-- id: react-section-intro -->
 
-これまでのStep23〜27はjQuery/素のJavaScriptによるフロントエンド実装だったが、
+これまでのStep24〜28はjQuery/素のJavaScriptによるフロントエンド実装だったが、
 ここではSpringBootのREST APIをReactから呼び出す構成に発展させる。既存アプリの
-画面を段階的にReact化していく形で進める。最初は1画面から始め(Step32)、
-慣れてきたら複数画面をReact Routerでつなぐところまで発展させる(Step33)。
+画面を段階的にReact化していく形で進める。最初は1画面から始め(Step33)、
+慣れてきたら複数画面をReact Routerでつなぐところまで発展させる(Step34)。
 どの画面をReact化するか・最終的に何画面まで広げるかは、学習者が作っている
 アプリの内容次第であり、特定の画面種別(一覧・詳細等)を前提にしない。
 
-Step22(運用仕上げ)と同様、**このReact編は任意/発展Stepであり、修了の必須条件には
-含めない**。jQuery(Step26)までの実装で「Web開発の一通りの基礎」は完了しているため、
+Step23(運用仕上げ)と同様、**このReact編は任意/発展Stepであり、修了の必須条件には
+含めない**。jQuery(Step27)までの実装で「Web開発の一通りの基礎」は完了しているため、
 Reactへの移行は「実務でSPA構成に触れる機会を前倒しで作りたい」学習者向けの
 追加メニューという位置づけ。
 
 **入口は2ルートある**:
-- **jQuery経由**: Step23〜27を完了した上でReactに取り組む。jQueryのDOM操作・Ajax・
+- **jQuery経由**: Step24〜28を完了した上でReactに取り組む。jQueryのDOM操作・Ajax・
   CSRFの経験と対比しながら学べるため、初めてフロントエンドに触れる学習者にはこちらを推奨する。
 - **直接React**: すでにjQueryやDOM操作・イベント処理の基礎(他プロジェクトでの経験等)が
-  ある学習者は、Step23〜27を経由せずStep28から直接始めてよい。この場合、Step27で
-  扱うCSRFトークンの知識はStep34で新たに学ぶことになる。
+  ある学習者は、Step24〜28を経由せずStep29から直接始めてよい。この場合、Step28で
+  扱うCSRFトークンの知識はStep35で新たに学ぶことになる。
 
-## Step28: React環境構築とJSXの基礎(任意/発展) <!-- id: react-setup -->
+## Step29: React環境構築とJSXの基礎(任意/発展) <!-- id: react-setup -->
 - 目的: Node.js/npm環境を整え、既存のSpringBootアプリには手を加えず、JSXの読み書きに
   慣れる。この時点ではstateもAPI通信も扱わない。
 - 概念: Node.js/npmのセットアップ、Vite等でのReactプロジェクト作成、JSXの構文
   (式の埋め込み、属性名の違い`className`等)、関数コンポーネントの最小形。
-- 前提Step: なし(依存関係マップの`S26 --> S28`は「jQuery経由」の推奨経路であり必須では
-  ない)。DOM操作/イベント処理の基礎がある学習者はStep23〜27を経由せず直接始めてよい。
-  未経験なら先にStep23〜27を通る方が理解が早い。
+- 前提Step: なし(依存関係マップの`S27 --> S29`は「jQuery経由」の推奨経路であり必須では
+  ない)。DOM操作/イベント処理の基礎がある学習者はStep24〜28を経由せず直接始めてよい。
+  未経験なら先にStep24〜28を通る方が理解が早い。
 - 完了条件: Reactの開発サーバーが起動し、静的なJSX(state・イベントなし)で簡単な画面
   (例: 自己紹介カード、固定データの一覧表示)を表示できる。
 
-## Step29: コンポーネント分割とprops(任意/発展) <!-- id: react-components-props -->
+## Step30: コンポーネント分割とprops(任意/発展) <!-- id: react-components-props -->
 - 目的: 1つの大きな画面を、責務ごとに複数のコンポーネントに分割する設計を身につける。
 - 概念: コンポーネントの分割単位(責務・再利用性の観点)、`props`によるデータの受け渡し、
   `children`、同じコンポーネントを異なるpropsで複数回使う再利用。
-- 前提Step: Step28
+- 前提Step: Step29
 - 完了条件: 1つの画面が親子関係を持つ複数コンポーネントで構成され、propsでデータが
   渡っている。同じコンポーネントを異なるpropsで複数回使っている箇所が最低1つある。
 
-## Step30: State管理とイベントハンドリング(任意/発展) <!-- id: react-state-events -->
+## Step31: State管理とイベントハンドリング(任意/発展) <!-- id: react-state-events -->
 - 目的: ユーザー操作に応じて画面が動的に変わる仕組み(state)を理解する。
 - 概念: `useState`、イベントハンドラ(`onClick`/`onChange`)、controlled components
   (フォーム入力をReactのstateと同期させる)、stateのリフトアップ(子の操作を親のstateに
   反映する基本パターン)。
-- 前提Step: Step29
+- 前提Step: Step30
 - 完了条件: フォーム入力がcontrolled componentとしてstateと同期している。親コンポーネント
   が子コンポーネントの操作結果をstateのリフトアップで受け取っている例が最低1つある。
 
-## Step31: 副作用とAPIからのデータ取得(任意/発展) <!-- id: react-data-fetching -->
-- 目的: 画面表示時にSpringBootのREST API(Step17)からデータを取得し、非同期処理の結果を
+## Step32: 副作用とAPIからのデータ取得(任意/発展) <!-- id: react-data-fetching -->
+- 目的: 画面表示時にSpringBootのREST API(Step18)からデータを取得し、非同期処理の結果を
   画面に反映する。あわせて、複数件のデータをリスト表示する際の作法と、開発時特有の
   オリジン越え問題に対処する。
 - 概念: `useEffect`と依存配列、`fetch`/`axios`、ローディング/エラー状態の表現、
@@ -588,36 +611,36 @@ Reactへの移行は「実務でSPA構成に触れる機会を前倒しで作り
   `.map()`によるリスト描画と`key`propの必要性(なぜindexをそのまま使うと問題が
   起きうるか)、CORS(Viteの開発サーバーとSpringBootが別オリジンになることで起きる
   問題と、SpringBoot側での許可設定 — `@CrossOrigin`または`WebMvcConfigurer`)。
-- 前提Step: Step30, Step17(REST API。ここで初めて実体的にSpringBoot側の完了が前提になる)
+- 前提Step: Step31, Step18(REST API。ここで初めて実体的にSpringBoot側の完了が前提になる)
 - 完了条件: コンポーネントのマウント時にSpringBootのREST APIを呼び出し、取得した
   データを`.map()`で一覧表示できる(`key`propが適切に設定されている)。ローディング中・
   取得失敗時の表示がある。開発サーバーとSpringBootが別オリジンの状態でCORSエラーに
   直面し、許可設定によって解消した経験がある。
 
-## Step32: 既存画面のReact化(統合・任意/発展) <!-- id: react-integration -->
-- 目的: Step28〜31で身につけた要素(JSX、コンポーネント分割、state、データ取得)を
+## Step33: 既存画面のReact化(統合・任意/発展) <!-- id: react-integration -->
+- 目的: Step29〜32で身につけた要素(JSX、コンポーネント分割、state、データ取得)を
   組み合わせ、既存アプリの画面のうち1つを実際にReactで置き換える。あわせて、複数の
   コンポーネントを統合する規模になって初めて実感できる、propsのバケツリレー
   (prop drilling)問題とその解消策に向き合う。この時点ではReact側は1画面のみでよい
-  (複数画面への展開はStep33で扱う)。
+  (複数画面への展開はStep34で扱う)。
 - 概念: 既存Thymeleaf画面とReact画面の共存(画面単位の切り替えでよい)、既存のCSS
-  (Step24)との整合、propsのバケツリレー(複数階層のコンポーネントを経由してstateを
+  (Step25)との整合、propsのバケツリレー(複数階層のコンポーネントを経由してstateを
   受け渡す際の記述の煩雑さ)、Context API(または他の軽量な状態管理手段)による解消。
-- 前提Step: Step31
+- 前提Step: Step32
 - 完了条件: 既存アプリの画面のうち1つ(どの画面にするかは学習者が作っているアプリの
   内容に応じて選んでよい)がReactで実装され、SpringBootのREST APIからデータを
   取得して表示できる。既存のThymeleaf画面と(画面単位の切り替えで)共存している。
 - 補足: Context API等の状態管理は「発展メニュー」止まりにしない。完了レビューで後から
-  「使わなかった理由」を尋ねるのではなく、**Step32に取り組んでいる最中に、学習者の実際の
+  「使わなかった理由」を尋ねるのではなく、**Step33に取り組んでいる最中に、学習者の実際の
   コンポーネント構成を見ながら能動的に提案する**(例:「この画面と子コンポーネントで同じ
   stateを共有するなら、Context APIに切り替えるとpropsの受け渡しがどう変わりそうですか」)。
   バケツリレーが3階層以上になりそうな設計が見えた時点で提案するのが望ましい。
-  Step32に取り組むかどうかは学習者の判断だが、**取り組むと決めた以上、実際に組み込む
+  Step33に取り組むかどうかは学習者の判断だが、**取り組むと決めた以上、実際に組み込む
   ところまでやってもらう**(`SKILL.md`の「技術・パターンの採用は提案主導で実際にやって
   もらう」参照)。
 
-## Step33: 複数画面のSPA化とReact Router(任意/発展) <!-- id: react-router -->
-- 目的: Step32ではReact側を1画面に留めたが、ここでは扱う画面を複数に広げ、
+## Step34: 複数画面のSPA化とReact Router(任意/発展) <!-- id: react-router -->
+- 目的: Step33ではReact側を1画面に留めたが、ここでは扱う画面を複数に広げ、
   React Router(または同種のルーティングライブラリ)によるクライアントサイド
   ルーティングを体験する。通常のReactアプリ(複数ビューを持つもの)ではほぼ
   必須級の技術であり、Context APIと同様、Step0を除く「提案主導で実際にやって
@@ -627,42 +650,41 @@ Reactへの移行は「実務でSPA構成に触れる機会を前倒しで作り
   受け渡し、ブラウザの戻る/進むボタンとの整合、Reactが管理する範囲と既存の
   Thymeleaf画面が管理する範囲の切り分け(Thymeleaf側への遷移は通常の`<a>`タグの
   ままでよい)。
-- 前提Step: Step32
+- 前提Step: Step33
 - 完了条件: React側で2つ以上の画面(どの2画面にするかは学習者が作っているアプリの
   内容に応じて選んでよい。例: 一覧⇄詳細、検索結果⇄編集画面等)が、React Routerに
   よるクライアントサイド遷移でつながっている。URLパラメータを使って表示内容を
   切り替えられる箇所が最低1つある。ブラウザの戻る/進むボタンが正しく機能する。
-- 補足: Step32と同様、「Router自体を使うかどうか」の判断を学習者に丸投げしない。
-  Step32完了時点でメンターから具体的に提案し、実際に組み込むところまでやってもらう。
-  Step33自体を学習対象に含めるかどうかは学習者の判断に委ねてよい。
+- 補足: Step33と同様、「Router自体を使うかどうか」の判断を学習者に丸投げしない。
+  Step33完了時点でメンターから具体的に提案し、実際に組み込むところまでやってもらう。
+  Step34自体を学習対象に含めるかどうかは学習者の判断に委ねてよい。
 
-## Step34: フォーム送信とCSRF連携(任意/発展) <!-- id: react-form-csrf -->
+## Step35: フォーム送信とCSRF連携(任意/発展) <!-- id: react-form-csrf -->
 - 目的: 表示だけでなく、Reactからのフォーム送信(作成/更新)をSpring SecurityのCSRF
-  保護下で実現し、Step27で学んだAjax+CSRFの知識をReact側でも再現する。
-- 概念: POST/PUTリクエストの送信、CSRFトークンの取得・送信(Step27と同様の方式をReact側に
+  保護下で実現し、Step28で学んだAjax+CSRFの知識をReact側でも再現する。
+- 概念: POST/PUTリクエストの送信、CSRFトークンの取得・送信(Step28と同様の方式をReact側に
   適用)、送信後の再取得と画面表示の更新。
-- 前提Step: Step33, Step27(Ajax+CSRFの知識。Step27自体を経由していない学習者は、
+- 前提Step: Step34, Step28(Ajax+CSRFの知識。Step28自体を経由していない学習者は、
   この時点でCSRFトークンの扱いを新たに学ぶことになる旨を伝える)
 - 完了条件: Reactの画面からフォーム送信ができ、CSRF保護が有効なままリクエストが
   成功する。送信後、画面の表示内容が更新された結果を反映する。
 
-## Step35: 本番ビルドとSpringBootへの統合(任意/発展) <!-- id: react-prod-build -->
+## Step36: 本番ビルドとSpringBootへの統合(任意/発展) <!-- id: react-prod-build -->
 - 目的: Reactの本番ビルド成果物をSpringBootの静的リソースとして配信し、jar単体で
   起動できる状態にする。Step3の「コマンドラインだけでjarを起動する」体験と対になる、
   フロントエンドを含めた完成形を体験する。
 - 概念: `npm run build`の成果物配置(`src/main/resources/static`配下等)、Viteのbase
   path設定、SpringBootの静的リソース配信の仕組み、開発時(別オリジン+CORS許可)と
   本番時(同一オリジン、CORS設定不要)の違い。
-- 前提Step: Step34, Step3(jarでの単独起動体験)
+- 前提Step: Step35, Step3(jarでの単独起動体験)
 - 完了条件: `mvnw package`で作られたjarを起動すると、React側で実装した画面がSpringBoot
   経由(別途Node.jsサーバーを起動せず)で表示・操作できる。本番相当の起動では、
-  Step31で対処したCORS設定が不要になる(同一オリジンになるため)理由を説明できる。
+  Step32で対処したCORS設定が不要になる(同一オリジンになるため)理由を説明できる。
 
 ## 発展メニュー(任意、順不同) <!-- id: advanced-menu -->
 
 本編で扱わなかったが、今後拡充していきたい要素。優先順位や着手順は都度相談する。
 
-- ファイルアップロード(`MultipartFile`)
 - 国際化(i18n、`messages.properties`)
 - OpenAPI/Swaggerによるドキュメント化
 - シークレット管理(認証情報の環境変数化)
