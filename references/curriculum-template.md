@@ -1,4 +1,4 @@
-<!-- template-version: 2026-08-22.22 -->
+<!-- template-version: 2026-08-22.24 -->
 
 # SpringBoot Web開発 学習カリキュラム(汎用テンプレート)
 
@@ -51,26 +51,28 @@ Step7(DB接続)/ Step8(グローバルエラーページ)/ Step9(レイヤード
 Step10(DTO分離)/ Step11(検索・ページング・ソート)/ Step12(SQL実践)/
 Step13(排他制御)/ Step14(ファイルアップロード)/ Step15(ファイル出力)/
 Step16(テスト)/ Step17(セッション認証)/ Step18(REST API)/ Step19(外部API連携)/
-Step20(Security入門)/ Step21(認可仕上げ)/ Step22(ロギング・Interceptor・Filter)/
-Step23(運用仕上げ・任意)/ Step24(JS基礎)/ Step25(CSSレイアウト)/
-Step26(クライアントバリデーション)/ Step27(jQuery)/ Step28(Ajax+CSRF)/
+Step20(Security入門)/ Step21(認可仕上げ・任意)/ Step22(ロギング・Interceptor・Filter・任意)/
+Step23(運用仕上げ・任意)/ Step24(JS基礎・任意)/ Step25(CSSレイアウト・任意)/
+Step26(クライアントバリデーション・任意)/ Step27(jQuery・任意)/ Step28(Ajax+CSRF・任意)/
 Step29(React基礎・任意)/ Step30(コンポーネント/props・任意)/ Step31(State/イベント・任意)/
 Step32(データ取得/CORS・任意)/ Step33(React統合・任意)/ Step34(React Router・任意)/
 Step35(フォーム/CSRF・任意)/ Step36(本番ビルド統合・任意)/ 発展メニュー
 
-Step番号は目次上の並び順(=学習順)と一致している。Step23(運用仕上げ)・
-Step29〜36(React編)は、番号上は他のStepと連続しているが、任意/発展Stepであり
-修了の必須条件には含めない。
+Step番号は目次上の並び順(=学習順)と一致している。**必須StepはStep0〜Step20まで**
+(バックエンドの中核部分+Spring Securityによる認証の安全化)。Step21以降(認可・
+ロギング・フロントエンド・React編)はすべて任意/発展Stepであり、修了の必須条件には
+含めない(必須期間を短縮しつつ、認証を平文パスワードのまま終わらせないための構成)。
 
 ## 修了基準
 
-このカリキュラムにおける「修了」は、**Step0〜Step28の全カリキュラムが完了していること**
+このカリキュラムにおける「修了」は、**Step0〜Step20が完了していること**
 (Step0チェックリストは全項目(このテンプレートのままなら16項目)すべて`未実証`以外の
-状態になっている——実証条件が
-(a)(b)(c)に分かれている項目は、全ての条件について判断が済んでいることが条件、Step1〜28のうち
-Step23(運用仕上げ・任意)を除く全てが「完了」)を基本ラインとする。Step23・
-Step29〜36(React編)・発展メニューは、いずれも任意/発展Stepであり修了の必須条件には
-含めない。
+状態になっている——実証条件が(a)(b)(c)に分かれている項目は、全ての条件について判断が
+済んでいることが条件、Step1〜20が全て「完了」)を基本ラインとする。**Step21以降
+(Step21〜Step36、発展メニューを含む)は、いずれも任意/発展Stepであり修了の必須条件には
+含めない**。これには認可の作り込み・ロギング・フロントエンド(JS/CSS/jQuery/Ajax)・
+React編が含まれる——必須期間を短くするため、意図的にここで線を引いている
+(ただしSpring Securityによる認証の安全化(Step20)自体は必須に含める)。
 
 修了の判定は、`.claude/state/learning-springboot/PROGRESS.md`の記録を鵜呑みにせず、
 実際のリポジトリの状態を横断的に確認した上で行う(`SKILL.md`のモード6「修了確認」参照)。
@@ -134,8 +136,15 @@ graph LR
   S35 --> S36[Step36 本番ビルド統合]
   S3 -.-> S36
 
-  subgraph 任意発展["任意/発展"]
+  subgraph 任意発展["任意/発展(Step21以降すべて)"]
+    S21
+    S22
     S23
+    S24
+    S25
+    S26
+    S27
+    S28
     S29
     S30
     S31
@@ -147,7 +156,7 @@ graph LR
   end
 
   classDef optional fill:#fff3cd,stroke:#d39e00,stroke-width:2px,stroke-dasharray: 5 5,color:#000;
-  class S23,S29,S30,S31,S32,S33,S34,S35,S36 optional;
+  class S21,S22,S23,S24,S25,S26,S27,S28,S29,S30,S31,S32,S33,S34,S35,S36 optional;
 ```
 
 (黄色の破線枠のノードは「任意/発展」Stepを示す。必須Stepの完了はこれらに依存しない。
@@ -172,7 +181,7 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 | class-design | 3 | クラス設計・コンストラクタ設計 | Entity/DTOが、責務の合った単位で設計され、不要なsetterを持たない | Step10(DTO設計) |
 | record-immutable | 4 | record(不変データクラス) | DTOやちょっとした値オブジェクトを`record`で表現している、または「なぜここは`record`にしなかったか」を説明できる | Step10(DTO設計) |
 | interface-abstraction | 5 | interfaceによる抽象化 | `JpaRepository`の継承に加え、Serviceそのものをinterface+実装クラスに分けている、または差し替え可能な設計がある | Step9(レイヤードアーキテクチャ) |
-| enum-type-safety | 6 | enum(状態・種別の型安全な表現) | ロールや種別のような固定値を、生の文字列比較ではなく`enum`で表現している | 貸出状態のような「種別・ステータス」はStep9(レイヤードアーキテクチャ)時点でも実装され得るため、その段階で機会があれば促す。ただし「ロール」の実例(例: `"ADMIN".equals(user.getRole())`)はUserエンティティ・ロール概念が実際に登場するStep17(セッション認証)〜Step20/21(Security・認可)が自然な実証機会であり、Step9時点でロールがまだ存在しない学習者に無理に促さない。題材決めで役割が2種類以上あることを確認しているため、遅くともStep17〜21では原則`enum`での実装を促す。役割・種別に相当する概念が題材に無いまま進めている場合に限り「会話で確認済み」でよい |
+| enum-type-safety | 6 | enum(状態・種別の型安全な表現) | ロールや種別のような固定値を、生の文字列比較ではなく`enum`で表現している | 貸出状態のような「種別・ステータス」はStep9(レイヤードアーキテクチャ)時点でも実装され得るため、その段階で機会があれば促す。「ロール」の実例(例: `"ADMIN".equals(user.getRole())`)は、Step20(Spring Security、**必須**)で`UserDetailsService`が返す権限(authorities)を設計する時点が必ず来る実証機会——ここでロールをenumで表現するよう促す。Step21(認可、任意/発展)まで進めばさらに実践的な使い方(`@PreAuthorize`でのロールベース認可)で定着する。Step20は必須のため、必須部分を修了する学習者は全員この機会を通る。役割・種別に相当する概念が題材に無いまま進めている場合に限り「会話で確認済み」でよい |
 | exception-handling | 7 | 例外処理の使い分け(try-catch-finally、try-with-resources/AutoCloseable、独自例外) | (a)try-catch-finallyの基本構文を説明・使用できる。(b)独自例外クラス(例: `〇〇NotFoundException`)を定義し、適切な層でスローしている。(c)ファイルI/O等リソースを扱うコードがあれば、try-with-resourcesで自動クローズしている | Step18(REST API/例外処理)。(b)はStep13(`OptimisticLockingFailureException`の業務エラー変換)も実証機会。(c)はStep15(ファイル出力)が必ず来る実証機会——Step15は必須Stepのため(c)に「対象外」は原則選ばない。Step15着手前は「会話で確認済み」に留めてよい |
 | collection-ops | 8 | Collection操作 | `List`/`Map`/`Set`に対する重複除去・ソート・集計等の操作がある | Step2〜Step4(最小アプリ/フォーム)。Step12(SQL実践)でJPQLの集計クエリ結果(件数・合計等)をJavaのCollectionで受け取り加工する場面も実証機会になる |
 | generics | 9 | ジェネリクス | `JpaRepository<Xxx, Long>`のような型パラメータ付きの宣言を読み書きできる | 実際にはStep7(DB接続)でRepositoryを書いた時点で満たされることが多い。Step7完了時点のレビューで先に確認し、そこで満たされていなければStep9(レイヤードアーキテクチャ)で改めて確認する |
@@ -228,8 +237,9 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   「貸出記録」等)。Step10のN+1体験、Step9のレイヤー分けに必要。
 - 一覧に検索・並び替えの対象になる属性が複数ある(例: タイトル、カテゴリ、登録日)。
   Step11(検索・ページング・ソート)に必要。
-- 利用者に2種類以上の役割が想定できる(例: 一般利用者/管理者)。Step17の認証、
-  Step21の認可の作り込みに必要。
+- 利用者に2種類以上の役割が想定できる(例: 一般利用者/管理者)。Step17の認証・
+  Step20のSpring Security(いずれも必須)で活きる。認可の作り込み(Step21、
+  任意/発展)まで進む場合はさらに活きる。
 
 満たさない題材でも却下はしない。「この題材だとStep10で扱うN+1が体験できないので、
 ◯◯という関連データを足しませんか」のように、具体的に補強を提案する形にする。
@@ -477,10 +487,11 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 - 前提Step: Step9(レイヤーが確立していること)
 - 完了条件: ログイン/ログアウトができ、未ログイン時は保護されたページにアクセスできない。
   **この段階ではパスワードは平文保存のままでよい(意図的にハッシュ化しない)**——
-  Step20でSpring Securityにより弱点を解決する、という動機付けのストーリーを成立させる
-  ため。学習者が自発的にハッシュ化を実装した場合は、その意欲を否定せず、Step20では
-  「今度はSpring Securityの標準的な仕組み(BCrypt等)に置き換える」という形で
-  引き継ぐ。
+  Step20(Spring Security、**必須**)でこの弱点を解決する、という動機付けのストーリーを
+  成立させるため。学習者が自発的にハッシュ化を実装した場合は、その意欲を否定せず、
+  Step20では「今度はSpring Securityの標準的な仕組み(BCrypt等)に置き換える」という
+  形で引き継ぐ。この平文保存は一時的な状態であり、**Step20が必須である以上、修了時点
+  では必ずSpring Securityによるハッシュ化に置き換わっている**。
 
 ## Step18: REST APIと例外処理の設計 <!-- id: rest-api -->
 - 目的: `@RestController`でJSON APIを作り、業務エラーを適切なHTTPステータスにマッピングする。
@@ -523,7 +534,7 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   CSRF等の理解が深まる)
 - 完了条件: パスワードがハッシュ化されて保存され、Spring Securityのフィルタ経由でログインが機能する。
 
-## Step21: 認可の作り込みとSecurity統合の仕上げ <!-- id: authorization -->
+## Step21: 認可の作り込みとSecurity統合の仕上げ(任意/発展) <!-- id: authorization -->
 - 目的: 画面用/API用など用途別に`SecurityFilterChain`を分割し、ログイン後のユーザー特定を
   `SecurityContextHolder`経由に統一する。
 - 概念: `@PreAuthorize`(有効化には`@EnableMethodSecurity`が必要——付け忘れると
@@ -536,7 +547,7 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   検証している**(ロールが同じでも、所有者が異なるリソースへのアクセスは拒否されるか、
   という観点)。
 
-## Step22: ロギング・Interceptor・Filter <!-- id: logging-interceptor-filter -->
+## Step22: ロギング・Interceptor・Filter(任意/発展) <!-- id: logging-interceptor-filter -->
 - 目的: Step20〜21で構築したSpring Securityの仕組み(`SecurityFilterChain`)が、
   実はServletコンテナ標準のFilterチェーンの上に成り立っていることを理解する。
   Filterより一段Spring MVC寄りの`HandlerInterceptor`との使い分け、実務で欠かせない
@@ -572,15 +583,18 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   - `ddl-auto=update`に頼らないスキーマ管理の仕組み(Flyway等)を最低1つのテーブルに
     対して試せている、またはその必要性(意図しないスキーマ変更のリスク等)を説明できる。
 
-## フロントエンド編(Step24〜28、バックエンド完了後) <!-- id: frontend-section-intro -->
+## フロントエンド編(Step24〜28、任意/発展、バックエンド完了後) <!-- id: frontend-section-intro -->
 
-Step0〜22(バックエンドの必須Step)の間は、Step5の画面共通化を除いて最低限のThymeleaf
-(CSS装飾無し、素のHTML相当)で進め、フロントエンドはバックエンドが一通り完了してから
-本格的に着手する。理由は、Ajax通信やCSRFトークン連携がバックエンドのREST API(Step18)・
-Security(Step20/21)の理解を前提とするため。Step23(運用仕上げ)は任意/発展Stepであり、
-Step24に進むための前提ではない——経由していなくてもフロントエンド編に進んでよい。
+**このフロントエンド編(Step24〜28)は全体が任意/発展Stepであり、修了の必須条件には
+含めない**(必須はStep0〜Step20まで)。Step0〜20(バックエンドの必須Step)の間は、
+Step5の画面共通化を除いて最低限のThymeleaf(CSS装飾無し、素のHTML相当)で進める。
+興味があれば、必須部分の修了後にフロントエンド編へ進んでよい。理由は、Ajax通信や
+CSRFトークン連携がバックエンドのREST API(Step18)・Security(Step20)の理解を
+前提とするため——Step20は必須Stepなので、フロントエンド編に進む時点で必ず完了している。
+Step21〜23(認可〜運用仕上げ)は任意/発展のため、経由していなくてもStep24に
+直接進んでよい。
 
-## Step24: JavaScript基礎(DOM操作・イベント・Promise) <!-- id: js-basics -->
+## Step24: JavaScript基礎(DOM操作・イベント・Promise)(任意/発展) <!-- id: js-basics -->
 - 目的: jQueryやAjaxに入る前に、素のJavaScriptでDOM操作・イベントハンドリング・非同期処理の基本を理解する。
   あわせて、DOM操作を始めるこの段階でXSS(クロスサイトスクリプティング)の基本的な
   危険性に触れる(SQLインジェクションと同じく、意識せず踏みやすい脆弱性であり、
@@ -596,19 +610,19 @@ Step24に進むための前提ではない——経由していなくてもフ�
   `innerHTML`でエスケープ無しに挿入していないか確認し、`textContent`を使うか
   意図的にエスケープしている**。なぜそうすべきか(XSS)を説明できる。
 
-## Step25: CSSレイアウト <!-- id: css-layout -->
+## Step25: CSSレイアウト(任意/発展) <!-- id: css-layout -->
 - 目的: 装飾ではなくレイアウト崩れを直せるレベルのCSSを身につける(画面構造の共通化はStep5で対応済み)。
 - 概念: Flexbox/Grid、メディアクエリ(レスポンシブ)。
 - 前提Step: Step24(推奨順のみ——CSSはJSの内容に技術的に依存しない)
 - 完了条件: 主要画面がFlexbox/Gridで崩れずに表示される。
 
-## Step26: クライアントサイドバリデーション <!-- id: client-validation -->
+## Step26: クライアントサイドバリデーション(任意/発展) <!-- id: client-validation -->
 - 目的: Step6のサーバーサイドバリデーションと対比しながら、即時フィードバック用のクライアント側チェックを実装する。
 - 概念: HTML5バリデーション属性(`required`等)、JavaScriptによる入力チェック、サーバー側検証との役割分担。
 - 前提Step: Step24
 - 完了条件: 明らかな入力ミス(未入力・形式違反)は送信前にクライアント側で気づける。最終チェックはサーバー側(Step6)に残っている。
 
-## Step27: jQuery入門 <!-- id: jquery-basics -->
+## Step27: jQuery入門(任意/発展) <!-- id: jquery-basics -->
 - 目的: 素のJavaScriptで書いていたDOM操作・イベント処理をjQueryで書き直し、
   何が簡潔になるかを比較する。基礎的なDOM操作を一通りjQueryで行えるようになる
   (深追いはしない)。
@@ -624,7 +638,7 @@ Step24に進むための前提ではない——経由していなくてもフ�
   (`.on('click', 'セレクタ', handler)`)は実務でよく使われるが、ここでは
   深追いせず「そういう書き方がある」と知っておく程度で十分。
 
-## Step28: Ajax通信とCSRF連携 <!-- id: ajax-csrf -->
+## Step28: Ajax通信とCSRF連携(任意/発展) <!-- id: ajax-csrf -->
 - 目的: 画面遷移を伴わずにサーバーとJSONをやり取りする。Spring SecurityのCSRF保護下でPOSTリクエストを送る。
 - 概念: `$.ajax`/`fetch`、JSONのシリアライズ/デシリアライズ、CSRFトークンをヘッダー/パラメータに埋め込む方法、ブラウザ開発者ツール(Networkタブ)でのデバッグ。
 - 前提Step: Step18(REST API)、Step20(Security/CSRF)、Step27
