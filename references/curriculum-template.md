@@ -1,4 +1,4 @@
-<!-- template-version: 2026-08-22.21 -->
+<!-- template-version: 2026-08-22.22 -->
 
 # SpringBoot Web開発 学習カリキュラム(汎用テンプレート)
 
@@ -65,7 +65,8 @@ Step29〜36(React編)は、番号上は他のStepと連続しているが、任�
 ## 修了基準
 
 このカリキュラムにおける「修了」は、**Step0〜Step28の全カリキュラムが完了していること**
-(Step0チェックリストは16項目すべて`未実証`以外の状態になっている——実証条件が
+(Step0チェックリストは全項目(このテンプレートのままなら16項目)すべて`未実証`以外の
+状態になっている——実証条件が
 (a)(b)(c)に分かれている項目は、全ての条件について判断が済んでいることが条件、Step1〜28のうち
 Step23(運用仕上げ・任意)を除く全てが「完了」)を基本ラインとする。Step23・
 Step29〜36(React編)・発展メニューは、いずれも任意/発展Stepであり修了の必須条件には
@@ -108,7 +109,7 @@ graph LR
   S17 --> S20[Step20 Security入門]
   S18 -.-> S20
   S20 --> S21[Step21 認可仕上げ]
-  S21 --> S22[Step22 ロギング/Interceptor/Filter]
+  S21 -.-> S22[Step22 ロギング/Interceptor/Filter]
   S7 --> S23[Step23 運用仕上げ]
   S3 -.-> S23
   S22 -.-> S23
@@ -118,7 +119,7 @@ graph LR
   S24 --> S27[Step27 jQuery]
   S18 --> S28[Step28 Ajax+CSRF]
   S20 --> S28
-  S27 --> S28
+  S27 -.-> S28
   S27 -.-> S29[Step29 React基礎]
   S29 --> S30[Step30 コンポーネント/props]
   S30 --> S31[Step31 State/イベント]
@@ -131,7 +132,7 @@ graph LR
   S34 --> S35[Step35 フォーム/CSRF]
   S28 -.-> S35
   S35 --> S36[Step36 本番ビルド統合]
-  S3 --> S36
+  S3 -.-> S36
 
   subgraph 任意発展["任意/発展"]
     S23
@@ -208,9 +209,10 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   3. ブレークポイントで実際に停止させ、その時点の変数の値をインスペクトできることを
      確認する(確認できた変数名と値を報告してもらう)。
 - 補足: **アプリの起動・動作確認はIDEのRunボタンではなくターミナルからのMavenラッパー
-  (`./mvnw` or `mvnw.cmd`)で行う**ことをここでルール化しておく(IDEのRunはclasspathや
-  作業ディレクトリの扱いが異なり、CI/本番相当の挙動と食い違いやすいため)。
-  デバッグ実行はIDE、それ以外の起動確認はターミナル、という役割分担を習慣化する。
+  (`./mvnw`または`mvnw.cmd`。**PowerShellでは`.\mvnw.cmd`のように`.\`が必要**——詳細は
+  Step3参照)で行う**ことをここでルール化しておく(IDEのRunはclasspathや作業ディレクトリの
+  扱いが異なり、CI/本番相当の挙動と食い違いやすいため)。デバッグ実行はIDE、それ以外の
+  起動確認はターミナル、という役割分担を習慣化する。
 
 ## アプリの題材決め(Step2に着手する前に) <!-- id: topic-selection -->
 
@@ -341,18 +343,23 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
   - ControllerがRepositoryに直接依存せずServiceを経由している。DBアクセスはRepositoryに閉じている。
   - 複数のRepository操作をまとめて行うServiceメソッドに`@Transactional`を付け、
     意図的に途中で例外を発生させて、それ以前の変更も含めてロールバックされることを確認できる。
-  - 上記の`@Transactional`の落とし穴(自己呼び出し・`private`・検査例外)のうち
-    少なくとも1つについて、自分の実装がその罠を踏んでいないか説明できる。
+  - 上記の`@Transactional`の落とし穴(自己呼び出し・`private`・検査例外)の**3点
+    すべて**について、自分の実装がその罠を踏んでいないかを説明できる(実装を変える
+    必要はなく、口頭・コメントでの説明でよい。テストのように新たに作るものが
+    増えるわけではないため、3点とも確認する)。
 
 ## Step10: DTO設計とAPI/画面の分離 <!-- id: dto-design -->
 - 目的: Entityの直接返却をやめ、リクエスト/レスポンス用のDTOに分離する。
   あわせて、Entity→DTO変換時に起きがちなN+1問題に気づき、対策できるようになる。
 - 概念: リクエストDTO/レスポンスDTO、バリデーションの層分担(構造的検証はDTO、業務的検証はService)、
   N+1問題(**JPAの既定フェッチ種別は`@ManyToOne`/`@OneToOne`がEAGER、`@OneToMany`/
-  `@ManyToMany`がLAZY**。一覧のEntityをDTOに変換する際、既定のままだと`@ManyToOne`側は
-  EAGERで毎回JOINが増え、`@OneToMany`側はLAZYな遅延ロードが一覧の件数分クエリを
-  発行してしまう、というそれぞれ異なる原因でN+1が起きうる)、`@EntityGraph`やfetch join
-  による対策。
+  `@ManyToMany`がLAZY**。ただしEAGERは「JOINになる」とは限らない——`em.find()`のような
+  単純取得ではJOINされるが、JPQL(`SELECT`)でルートEntityを取得した場合、Hibernateは
+  EAGER関連であっても取得後に1件ずつ追加のSELECTを発行する。つまり一覧をJPQLで取得する
+  一般的なケースでは、`@ManyToOne`のEAGERも`@OneToMany`のLAZYも、どちらも同様に
+  N+1(件数分の追加クエリ)を引き起こしうる)、`@EntityGraph`やfetch joinによる対策
+  (fetch joinで明示的にJOINさせることが、追加SELECTを防ぐ側の解決策であり、N+1の
+  原因ではない)。
 - 前提Step: Step9
 - 完了条件:
   - Controllerの引数・戻り値にEntityが直接現れない。
@@ -450,7 +457,8 @@ Step0は他のStepと違い、**単発のCLI課題では終わらせない**。�
 - 目的: レイヤーごとの責務に応じた**テストの書き方(パターン)を一通り経験する**。
   学習目的のため、アプリ全体のテストカバレッジを網羅することは目指さない
   (実務でのテスト戦略・カバレッジ基準は別途学ぶべき発展的なテーマとする)。
-- 概念: モック/スタブ、`@WebMvcTest`、`@DataJpaTest`。
+- 概念: モック/スタブ(`@MockitoBean`——`@MockBean`/`@SpyBean`はSpring Boot 3.4で
+  非推奨・4.0で削除されたため使わない)、`@WebMvcTest`、`@DataJpaTest`。
 - 前提Step: Step9
 - 完了条件:
   - 分岐・条件判定を含む(if/例外送出/Optionalの分岐等がある)Serviceのpublicメソッドを
@@ -574,10 +582,19 @@ Step24に進むための前提ではない——経由していなくてもフ�
 
 ## Step24: JavaScript基礎(DOM操作・イベント・Promise) <!-- id: js-basics -->
 - 目的: jQueryやAjaxに入る前に、素のJavaScriptでDOM操作・イベントハンドリング・非同期処理の基本を理解する。
-- 概念: `document.querySelector`、イベントリスナー、`Promise`、`async`/`await`。
+  あわせて、DOM操作を始めるこの段階でXSS(クロスサイトスクリプティング)の基本的な
+  危険性に触れる(SQLインジェクションと同じく、意識せず踏みやすい脆弱性であり、
+  DOM操作を扱うこのStepとStep32(React・APIレスポンスの描画)が実際に踏む機会になる)。
+- 概念: `document.querySelector`、イベントリスナー、`Promise`、`async`/`await`、
+  **XSS対策の意識**(`innerHTML`にユーザー入力由来の文字列をそのまま挿入すると
+  スクリプトが実行されうる危険、`textContent`との使い分け、Thymeleafの`th:text`
+  (自動エスケープ)と`th:utext`(エスケープ無し、危険)の違い)。
 - 前提Step: Step22(推奨順のみ——バックエンドのロギングとフロントエンドのJSに技術的な
   依存関係は無い。Step23は任意/発展Stepであり前提ではない)
 - 完了条件: 素のJavaScriptだけで、ボタンクリックに応じて画面の一部を書き換えられる。
+  **ユーザー入力(またはDBの登録データ)由来の文字列をDOMに挿入する箇所について、
+  `innerHTML`でエスケープ無しに挿入していないか確認し、`textContent`を使うか
+  意図的にエスケープしている**。なぜそうすべきか(XSS)を説明できる。
 
 ## Step25: CSSレイアウト <!-- id: css-layout -->
 - 目的: 装飾ではなくレイアウト崩れを直せるレベルのCSSを身につける(画面構造の共通化はStep5で対応済み)。
@@ -670,7 +687,10 @@ Reactへの移行は「実務でSPA構成に触れる機会を前倒しで作り
   クリーンアップ関数が必要になる場面があることに触れる(深追いはしない)、
   `.map()`によるリスト描画と`key`propの必要性(なぜindexをそのまま使うと問題が
   起きうるか)、CORS(Viteの開発サーバーとSpringBootが別オリジンになることで起きる
-  問題と、SpringBoot側での許可設定)。**この時点でSpring Securityが有効になっている
+  問題と、SpringBoot側での許可設定)。**XSSとの関係**(JSXは既定で値を自動エスケープ
+  するため、Step24で扱った素のDOM操作ほど無防備ではないが、`dangerouslySetInnerHTML`
+  を使うと同じ危険が復活する——「なぜdangerous(危険)という名前が付いているか」を
+  Step24のXSSの理解と結びつけて説明できるとよい)。**この時点でSpring Securityが有効になっている
   (Step20〜21が完了済みの)アプリでは、`@CrossOrigin`や`WebMvcConfigurer`だけでは
   不十分で、プリフライトリクエストがSecurityのフィルタ段階で401になる。
   `SecurityFilterChain`側で`http.cors(...)`を明示的に有効化する必要がある**。
@@ -751,7 +771,8 @@ Reactへの移行は「実務でSPA構成に触れる機会を前倒しで作り
   ——例: `WebMvcConfigurer`で静的リソースにもAPIにもマッチしないパスを`index.html`に
   転送する)。
 - 前提Step: Step35, Step3(jarでの単独起動体験)
-- 完了条件: `mvnw package`で作られたjarを起動すると、React側で実装した画面がSpringBoot
+- 完了条件: `./mvnw package`(またはWindows PowerShellでの`.\mvnw.cmd package`。Step3参照)
+  で作られたjarを起動すると、React側で実装した画面がSpringBoot
   経由(別途Node.jsサーバーを起動せず)で表示・操作できる。本番相当の起動では、
   Step32で対処したCORS設定が不要になる(同一オリジンになるため)理由を説明できる。
   **React Router管理下のURL(例: `/items/1`)を直接ブラウザに入力する、またはその
@@ -766,5 +787,4 @@ Reactへの移行は「実務でSPA構成に触れる機会を前倒しで作り
 - OpenAPI/Swaggerによるドキュメント化
 - シークレット管理(認証情報の環境変数化)
 - キャッシュ・非同期処理(`@Async`)
-- XSS対策の意識(Thymeleafの`th:text`は自動エスケープするが`th:utext`は危険、という理解)
 - CI/CDパイプライン(GitHub Actions等によるビルド・テストの自動化)
