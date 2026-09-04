@@ -16,7 +16,8 @@ Claude Code 用のプロジェクトスキルです。「代わりに実装す�
 付き)**を促します。これは不親切にしているのではなく、**調べる力と質問する力自体を
 学習項目として扱っている**ためです。
 
-このフォルダ(`learning-springboot/`)ごとコピーすれば、他のプロジェクトでもそのまま使えます。
+このフォルダ(`learning-springboot/`)を対象プロジェクトの`.claude/skills/`配下に置けば、
+他のプロジェクトでもそのまま使えます(コピー、または git clone。→[導入方法](#導入方法))。
 特定のアプリのコードには依存していません。
 
 ## 中身
@@ -34,13 +35,89 @@ learning-springboot/
 
 ## 導入方法
 
-1. このフォルダを対象プロジェクトの `.claude/skills/` 配下にコピーする。
+配置のしかたは2種類あります。**スキル側の更新を受け取りたい場合は方法B(git clone)を
+推奨**します。方法Aは更新のたびに手作業でコピーし直す必要があります。
 
-   ```bash
-   cp -r learning-springboot /path/to/target-project/.claude/skills/
-   ```
+| | 方法A: コピー | 方法B: git clone(推奨) |
+|---|---|---|
+| 初期導入 | フォルダをコピー | スキルだけを clone |
+| 更新 | もう一度コピーして上書き | `git pull` 一発 |
+| 向いている場面 | ネットワーク制限がある / 一度きりの利用 | 通常の研修利用 |
 
-2. 対象プロジェクトで Claude Code を起動し、以下のように話しかける。
+### 方法A: フォルダをコピーする
+
+このフォルダ(`learning-springboot/`)ごと、対象プロジェクトの `.claude/skills/` 配下に
+コピーする。
+
+```bash
+cp -r learning-springboot /path/to/target-project/.claude/skills/
+```
+
+更新するときは、新しいものを取得して同じ場所に上書きコピーする。
+**`references/faq.md` に蓄積した内容は上書きで消えるため、残したい場合はコピー前に
+退避する**。
+
+### 方法B: git clone でスキルだけ取得する(推奨)
+
+対象プロジェクトのルートで、スキルのリポジトリを `.claude/skills/` 配下に直接 clone する。
+アプリのリポジトリとは別のリポジトリとして並存するため、**アプリ側の履歴を汚さずに
+スキルだけを更新できる**。
+
+```bash
+git clone https://github.com/AsamiShingo/learning-springboot .claude/skills/learning-springboot
+```
+
+`--depth 1` を付けると履歴を持たない軽量なクローンになる(更新は同じく `git pull` で可能)。
+
+```bash
+git clone --depth 1 https://github.com/AsamiShingo/learning-springboot .claude/skills/learning-springboot
+```
+
+#### スキルを更新する
+
+対象プロジェクトのルートから、次のコマンドで最新のスキルを取り込む。
+
+```bash
+git -C .claude/skills/learning-springboot pull
+```
+
+- **カリキュラムの調整は `.claude/state/learning-springboot/CURRICULUM.md` 側で行う**こと。
+  スキル本体(`references/curriculum-template.md` 等)を直接書き換えると `pull` が競合する。
+- モード7(FAQ化)で `references/faq.md` に追記した内容は、clone した作業ツリーの
+  未コミット変更として残るため、そのままだと `pull` が競合することがある。追記を残したい
+  場合はコミットしてから `pull` する(共有したい場合は fork して push する)。破棄して
+  よい場合は `git -C .claude/skills/learning-springboot checkout -- references/faq.md`。
+
+### .gitignore の設定(方法A・B共通)
+
+スキル本体と学習者個人の進捗ファイルが、**アプリ本来のリポジトリにコミットされないように
+除外する**。対象プロジェクトの `.gitignore` に次の2行を追加する。
+
+```gitignore
+# 学習支援スキル本体(別リポジトリで管理する。アプリの資産ではない)
+/.claude/skills/learning-springboot/
+# 学習の進捗ファイル(学習者個人のもの)
+/.claude/state/
+```
+
+- 方法Bでは clone したディレクトリの中に `.git` があるため、除外しないと `git add` 時に
+  「embedded git repository」の警告が出て、中身が追跡されない半端な状態でコミットされて
+  しまう。**方法Bでは特に必須**。
+- `.claude/state/` の行は、初回にスキル側から追加の可否を確認されるので、そこで「はい」と
+  答えれば手動で追加する必要はない(下記の手順2を参照)。
+- **すでにコミットしてしまっている場合**は、`.gitignore` に追加するだけでは追跡が外れない。
+  次のコマンドで追跡を解除してからコミットする(ファイル自体は消えない)。
+
+  ```bash
+  git rm -r --cached .claude/skills/learning-springboot .claude/state
+  ```
+
+- `.claude/` 配下には settings.json など**チームで共有したい設定**が入ることもあるため、
+  `.claude/` 全体をまとめて除外するのは避け、上記のように配下を個別に指定する。
+
+### 配置したあとの流れ
+
+1. 対象プロジェクトで Claude Code を起動し、以下のように話しかける。
 
    ```
    learning-springbootスキルを使って、今の状況を教えて
@@ -49,7 +126,7 @@ learning-springboot/
    または、学習相談・進捗確認・コードレビューの文脈であれば、
    Claude が自動的にこのスキルを選択することもあります。
 
-3. 初回呼び出し時、Claude が以下を確認します。
+2. 初回呼び出し時、Claude が以下を確認します。
    - `.claude/state/learning-springboot/CURRICULUM.md` が無ければ、`references/curriculum-template.md` を
      ベースに新規作成してよいか尋ねます(プロジェクト事情に応じて内容を調整可能)。
    - `.claude/state/learning-springboot/PROGRESS.md` が無ければ、空の進捗テーブルを新規作成してよいか尋ねます。
@@ -60,7 +137,7 @@ learning-springboot/
    - あわせて、git管理下のプロジェクトであれば「`.gitignore`に`.claude/state/`を
      追加して、進捗ファイルをコミット対象から外してよいか」も確認します。
 
-4. **最初のStep(Step2)に入る前に、「作るアプリの題材決め」の対話があります。**
+3. **最初のStep(Step2)に入る前に、「作るアプリの題材決め」の対話があります。**
    何を管理するアプリを作るか(業務で扱う題材、趣味の題材など)は自由に決めてよい
    のですが、その前にClaudeから一度、題材がカリキュラム全体を通して学習に耐えるか
    ——具体的には次の3点——を一緒に確認されます。
@@ -154,9 +231,9 @@ submoduleでの取り込み、pluginとしての配布・再インストール�
 新規作成されるタイミングで、Claudeが`.gitignore`に`.claude/state/`の行を
 追加してよいか確認します(git管理下のプロジェクトの場合)。合意すれば
 自動的に追加されるので、うっかり進捗ファイルをコミットしてしまう心配は
-基本的にありません。`.claude/skills/`(スキル本体)をコミット対象にするか、
-別リポジトリで管理するか等は、このスキルが決めるものではなく、
-プロジェクトごとの運用に委ねます。
+基本的にありません。`.claude/skills/learning-springboot/`(スキル本体)についても、
+アプリの資産ではないため`.gitignore`で除外することを推奨しています
+(→[.gitignore の設定](#gitignore-の設定方法ab共通))。
 
 ## 前提
 
